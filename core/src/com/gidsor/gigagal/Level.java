@@ -14,7 +14,6 @@ public class Level {
     public Level() {
         gigaGal = new GigaGal();
         platforms = new Array<Platform>();
-        platforms.add(new Platform(70, 30, 20, 20));
         addDebugPlatforms();
     }
 

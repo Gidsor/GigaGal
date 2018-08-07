@@ -9,10 +9,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.gidsor.gigagal.util.Assets;
+import com.gidsor.gigagal.util.ChaseCam;
 import com.gidsor.gigagal.util.Constants;
 
 public class GameplayScreen extends ScreenAdapter {
     private static final String TAG = GameplayScreen.class.getName();
+
+    private ChaseCam chaseCam;
 
     Level level;
     SpriteBatch batch;
@@ -26,6 +29,8 @@ public class GameplayScreen extends ScreenAdapter {
         level = new Level();
         batch = new SpriteBatch();
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
+
+        chaseCam = new ChaseCam(viewport.getCamera(), level.gigaGal);
     }
 
     @Override
@@ -41,6 +46,8 @@ public class GameplayScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         level.update(delta);
+        chaseCam.update();
+
         viewport.apply();
 
         Gdx.gl.glClearColor(

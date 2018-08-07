@@ -18,7 +18,7 @@ public class GigaGal {
     JumpState jumpState;
     WalkState walkState;
 
-    Vector2 position;
+    public Vector2 position;
     Vector2 velocity;
     Vector2 lastFramePosition;
 
