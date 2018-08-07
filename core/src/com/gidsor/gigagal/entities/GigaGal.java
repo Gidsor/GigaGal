@@ -49,7 +49,7 @@ public class GigaGal {
             velocity.y = 0;
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             switch (jumpState) {
                 case GROUNDED: startJump(); break;
                 case JUMPING: continueJump(); break;
