@@ -1,7 +1,9 @@
 package com.gidsor.gigagal.entities;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.gidsor.gigagal.util.Assets;
 
 public class Platform {
     float left;
@@ -9,18 +11,23 @@ public class Platform {
     float right;
     float bottom;
 
-    public Platform(float left, float top, float right, float bottom) {
+    public Platform(float left, float top, float width, float height) {
         this.left = left;
         this.top = top;
-        this.right = right;
-        this.bottom = bottom;
+        this.right = left + width;
+        this.bottom = top - height;
     }
 
-    public void render(ShapeRenderer renderer) {
+    public void render(SpriteBatch batch) {
         float width = right - left;
         float height = top - bottom;
 
-        renderer.setColor(Color.BLUE);
-        renderer.rect(left, bottom, width, height);
+        Assets.instance.platformAssets.platformNinePatch.draw(
+                batch,
+                left - 1,
+                bottom - 1,
+                width + 2,
+                height + 2
+        );
     }
 }

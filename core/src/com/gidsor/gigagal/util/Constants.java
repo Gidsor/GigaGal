@@ -20,6 +20,7 @@ public class Constants {
     public static final String WALKING_LEFT_1 = "walk-1-left";
     public static final String WALKING_LEFT_2 = "walk-2-left";
     public static final String WALKING_LEFT_3 = "walk-3-left";
+    public static final String PLATFORM_SPRITE = "platform";
 
     public static final Vector2 GIGAGAL_EYE_POSITION = new Vector2(16, 24);
     public static final float GIGAGAL_EYE_HEIGHT = 16.0f;
@@ -29,4 +30,6 @@ public class Constants {
     public static final float JUMP_SPEED = 250.0f;
     public static final float MAX_JUMP_DURATION = 0.15f;
     public static final float GRAVITY = 1000;
+
+    public static final int PLATFORM_EDGE = 8;
 }

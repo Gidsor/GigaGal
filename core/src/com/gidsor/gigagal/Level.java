@@ -22,13 +22,10 @@ public class Level {
     }
 
     public void render(SpriteBatch batch, ShapeRenderer renderer) {
-        renderer.begin(ShapeType.Filled);
-        for (Platform platform : platforms) {
-            platform.render(renderer);
-        }
-        renderer.end();
-
         batch.begin();
+        for (Platform platform : platforms) {
+            platform.render(batch);
+        }
         gigaGal.render(batch);
         batch.end();
     }

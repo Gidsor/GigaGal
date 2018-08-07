@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.utils.Array;
@@ -16,7 +17,8 @@ public class Assets implements Disposable, AssetErrorListener {
     public static final String TAG = Assets.class.getName();
     public static final Assets instance = new Assets();
 
-    public GigaGalAssests gigaGalAssets;
+    public GigaGalAssets gigaGalAssets;
+    public PlatformAssets platformAssets;
 
     private AssetManager assetManager;
 
@@ -31,7 +33,9 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.finishLoading();
 
         TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS);
-        gigaGalAssets = new GigaGalAssests(atlas);
+        gigaGalAssets = new GigaGalAssets(atlas);
+
+        platformAssets = new PlatformAssets(atlas);
     }
 
     @Override
@@ -44,7 +48,7 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.dispose();
     }
 
-    public class GigaGalAssests {
+    public class GigaGalAssets {
         public final AtlasRegion standingRight;
         public final AtlasRegion standingLeft;
         public final AtlasRegion jumpingRight;
@@ -55,7 +59,7 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Animation walkingRightAnimation;
         public final Animation walkingLeftAnimation;
 
-        public GigaGalAssests(TextureAtlas atlas) {
+        public GigaGalAssets(TextureAtlas atlas) {
             standingRight = atlas.findRegion(Constants.STANDING_RIGHT);
             standingLeft = atlas.findRegion(Constants.STANDING_LEFT);
             jumpingRight = atlas.findRegion(Constants.JUMPING_RIGHT);
@@ -78,6 +82,16 @@ public class Assets implements Disposable, AssetErrorListener {
             walkingLeftFrames.add(atlas.findRegion(Constants.WALKING_LEFT_3));
 
             walkingLeftAnimation = new Animation(Constants.WALK_LOOP_DURATION, walkingLeftFrames, PlayMode.LOOP);
+        }
+    }
+
+    public class PlatformAssets {
+        public final NinePatch platformNinePatch;
+
+        public PlatformAssets(TextureAtlas atlas) {
+            AtlasRegion region = atlas.findRegion(Constants.PLATFORM_SPRITE);
+            int edge = Constants.PLATFORM_EDGE;
+            platformNinePatch = new NinePatch(region, edge, edge, edge, edge);
         }
     }
 }
