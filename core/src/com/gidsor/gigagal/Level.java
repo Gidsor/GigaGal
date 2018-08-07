@@ -18,10 +18,10 @@ public class Level {
     }
 
     public void update(float delta) {
-        gigaGal.update(delta);
+        gigaGal.update(delta, platforms);
     }
 
-    public void render(SpriteBatch batch, ShapeRenderer renderer) {
+    public void render(SpriteBatch batch) {
         batch.begin();
         for (Platform platform : platforms) {
             platform.render(batch);

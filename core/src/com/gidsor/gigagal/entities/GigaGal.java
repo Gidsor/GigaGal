@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.gidsor.gigagal.util.Assets;
 import com.gidsor.gigagal.util.Constants;
@@ -25,29 +26,41 @@ public class GigaGal {
     long walkStartTime;
 
     public GigaGal() {
-        position = new Vector2(20, Constants.GIGAGAL_EYE_HEIGHT);
+        position = new Vector2(20, 20);
+        lastFramePosition = new Vector2(position);
+
         facing = Facing.RIGHT;
         walkState = WalkState.STANDING;
-
         velocity = new Vector2();
         jumpState = JumpState.FALLING;
 
-        lastFramePosition = new Vector2(position);
     }
 
-    public void update(float dt) {
+    public void update(float dt, Array<Platform> platforms) {
+        lastFramePosition.set(position);
+
         velocity.y -= dt * Constants.GRAVITY;
         position.mulAdd(velocity, dt);
 
         if (jumpState != JumpState.JUMPING) {
             jumpState = JumpState.FALLING;
+
+            if (position.y - Constants.GIGAGAL_EYE_HEIGHT < 0) {
+                jumpState = JumpState.GROUNDED;
+                position.y = Constants.GIGAGAL_EYE_HEIGHT;
+                velocity.y = 0;
+            }
+
+            for (Platform platform : platforms) {
+                if (landeOnPlatform(platform)) {
+                    jumpState = JumpState.GROUNDED;
+                    velocity.y = 0;
+                    position.y = platform.top + Constants.GIGAGAL_EYE_HEIGHT;
+                }
+            }
         }
 
-        if (position.y - Constants.GIGAGAL_EYE_HEIGHT < 0) {
-            jumpState = JumpState.GROUNDED;
-            position.y = Constants.GIGAGAL_EYE_HEIGHT;
-            velocity.y = 0;
-        }
+
 
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             switch (jumpState) {
@@ -109,6 +122,23 @@ public class GigaGal {
         if (jumpState == JumpState.JUMPING) {
             jumpState = JumpState.FALLING;
         }
+    }
+
+    boolean landeOnPlatform(Platform platform) {
+        boolean leftFootIn = false;
+        boolean rightFootIn = false;
+        boolean straddle = false;
+
+        if (lastFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= platform.top &&
+                position.y - Constants.GIGAGAL_EYE_HEIGHT < platform.top) {
+            float leftFoot = position.x - Constants.GIGAGAL_STANCE_WIDTH / 2;
+            float rightFoot = position.x + Constants.GIGAGAL_STANCE_WIDTH / 2;
+
+            leftFootIn = (platform.left < leftFoot && platform.right > leftFoot);
+            rightFootIn = (platform.left < rightFoot && platform.right > rightFoot);
+            straddle = (platform.left > leftFoot && platform.right < rightFoot);
+        }
+        return leftFootIn || rightFootIn || straddle;
     }
 
     public void render(SpriteBatch sb) {

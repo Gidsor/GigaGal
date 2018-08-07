@@ -16,7 +16,6 @@ public class GameplayScreen extends ScreenAdapter {
 
     Level level;
     SpriteBatch batch;
-    ShapeRenderer renderer;
     ExtendViewport viewport;
 
     @Override
@@ -26,8 +25,6 @@ public class GameplayScreen extends ScreenAdapter {
 
         level = new Level();
         batch = new SpriteBatch();
-        renderer = new ShapeRenderer();
-        renderer.setAutoShapeType(true);
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
     }
 
@@ -39,7 +36,6 @@ public class GameplayScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         Assets.instance.dispose();
-        batch.dispose();
     }
 
     @Override
@@ -56,7 +52,6 @@ public class GameplayScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(viewport.getCamera().combined);
-        renderer.setProjectionMatrix(viewport.getCamera().combined);
-        level.render(batch, renderer);
+        level.render(batch);
     }
 }
