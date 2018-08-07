@@ -19,7 +19,10 @@ public class GigaGal {
 
     Vector2 position;
     Vector2 velocity;
+    Vector2 lastFramePosition;
+
     long jumpStartTime;
+    long walkStartTime;
 
     public GigaGal() {
         position = new Vector2(20, Constants.GIGAGAL_EYE_HEIGHT);
@@ -28,6 +31,8 @@ public class GigaGal {
 
         velocity = new Vector2();
         jumpState = JumpState.FALLING;
+
+        lastFramePosition = new Vector2(position);
     }
 
     public void update(float dt) {
@@ -64,12 +69,20 @@ public class GigaGal {
     }
 
     private void moveLeft(float dt) {
+        if (jumpState == JumpState.GROUNDED && walkState != WalkState.WALKING) {
+            walkStartTime = TimeUtils.nanoTime();
+        }
+
         walkState = WalkState.WALKING;
         facing = Facing.LEFT;
         position.x -= dt * Constants.GIGAGAL_MOVE_SPEED;
     }
 
     private void moveRight(float dt) {
+        if (jumpState == JumpState.GROUNDED && walkState != WalkState.WALKING) {
+            walkStartTime = TimeUtils.nanoTime();
+        }
+
         walkState = WalkState.WALKING;
         facing = Facing.RIGHT;
         position.x += dt * Constants.GIGAGAL_MOVE_SPEED;
@@ -106,13 +119,15 @@ public class GigaGal {
         } else if (facing == Facing.RIGHT && walkState == WalkState.STANDING) {
             region = Assets.instance.gigaGalAssets.standingRight;
         } else if (facing == Facing.RIGHT && walkState == WalkState.WALKING) {
-            region = Assets.instance.gigaGalAssets.walkingRight;
+            float walkTimeSeconds = MathUtils.nanoToSec * (TimeUtils.nanoTime() - walkStartTime);
+            region = (TextureRegion) Assets.instance.gigaGalAssets.walkingRightAnimation.getKeyFrame(walkTimeSeconds);
         } else if (facing == Facing.LEFT && jumpState != JumpState.GROUNDED) {
             region = Assets.instance.gigaGalAssets.jumpingLeft;
         } else if (facing == Facing.LEFT && walkState == WalkState.STANDING) {
             region = Assets.instance.gigaGalAssets.standingLeft;
         } else if (facing == Facing.LEFT && walkState == WalkState.WALKING) {
-            region = Assets.instance.gigaGalAssets.walkingLeft;
+            float walkTimeSeconds = MathUtils.nanoToSec * (TimeUtils.nanoTime() - walkStartTime);
+            region = (TextureRegion) Assets.instance.gigaGalAssets.walkingLeftAnimation.getKeyFrame(walkTimeSeconds);
         }
 
         sb.draw(
