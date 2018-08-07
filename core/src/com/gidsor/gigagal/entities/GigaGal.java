@@ -12,6 +12,7 @@ public class GigaGal {
     public static final String TAG = GigaGal.class.getName();
 
     Vector2 position;
+    Facing facing = Facing.RIGHT;
 
     public GigaGal() {
         position = new Vector2(20, Constants.GIGAGAL_EYE_HEIGHT);
@@ -28,15 +29,23 @@ public class GigaGal {
     }
 
     private void moveLeft(float dt) {
+        facing = Facing.LEFT;
         position.x -= dt * Constants.GIGAGAL_MOVE_SPEED;
     }
 
     private void moveRight(float dt) {
+        facing = Facing.RIGHT;
         position.x += dt * Constants.GIGAGAL_MOVE_SPEED;
     }
 
     public void render(SpriteBatch sb) {
-        TextureRegion region = Assets.instance.gigaGalAssets.standingRight;
+        TextureRegion region;
+
+        if (facing == Facing.RIGHT) {
+            region = Assets.instance.gigaGalAssets.standingRight;
+        } else {
+            region = Assets.instance.gigaGalAssets.standingLeft;
+        }
 
         sb.draw(
                 region.getTexture(),
@@ -55,5 +64,10 @@ public class GigaGal {
                 region.getRegionHeight(),
                 false,
                 false);
+    }
+
+    enum Facing {
+        LEFT,
+        RIGHT
     }
 }

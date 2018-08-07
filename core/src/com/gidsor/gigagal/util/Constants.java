@@ -7,7 +7,9 @@ public class Constants {
     public static final Color BACKGROUND_COLOR = Color.SKY;
     public static final float WORLD_SIZE = 128;
     public static final String TEXTURE_ATLAS = "images/gigagal.pack.atlas";
+
     public static final String STANDING_RIGHT = "standing-right";
+    public static final String STANDING_LEFT = "standing-left";
 
     public static final Vector2 GIGAGAL_EYE_POSITION = new Vector2(16, 24);
     public static final float GIGAGAL_EYE_HEIGHT = 16.0f;
