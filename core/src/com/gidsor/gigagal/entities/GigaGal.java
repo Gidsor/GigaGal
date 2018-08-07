@@ -94,11 +94,15 @@ public class GigaGal {
     }
 
     public void render(SpriteBatch sb) {
-        TextureRegion region;
+        TextureRegion region = Assets.instance.gigaGalAssets.standingRight;
 
-        if (facing == Facing.RIGHT) {
+        if (facing == Facing.RIGHT && jumpState != JumpState.GROUNDED) {
+            region = Assets.instance.gigaGalAssets.jumpingRight;
+        } else if (facing == Facing.RIGHT) {
             region = Assets.instance.gigaGalAssets.standingRight;
-        } else {
+        } else if (facing == Facing.LEFT && jumpState != JumpState.GROUNDED) {
+            region = Assets.instance.gigaGalAssets.jumpingLeft;
+        } else if (facing == Facing.LEFT) {
             region = Assets.instance.gigaGalAssets.standingLeft;
         }
 
