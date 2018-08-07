@@ -1,5 +1,7 @@
 package com.gidsor.gigagal.entities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -16,7 +18,21 @@ public class GigaGal {
     }
 
     public void update(float dt) {
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            moveLeft(dt);
+        }
 
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            moveRight(dt);
+        }
+    }
+
+    private void moveLeft(float dt) {
+        position.x -= dt * Constants.GIGAGAL_MOVE_SPEED;
+    }
+
+    private void moveRight(float dt) {
+        position.x += dt * Constants.GIGAGAL_MOVE_SPEED;
     }
 
     public void render(SpriteBatch sb) {
