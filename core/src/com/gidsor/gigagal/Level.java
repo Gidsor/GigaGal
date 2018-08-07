@@ -1,11 +1,20 @@
 package com.gidsor.gigagal;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.gidsor.gigagal.entities.GigaGal;
 
 public class Level {
-    public Level() {}
+    GigaGal gigaGal;
 
-    public void update(float dt) {}
+    public Level() {
+        gigaGal = new GigaGal();
+    }
 
-    public void render(SpriteBatch sb) {}
+    public void update(float dt) {
+        gigaGal.update(dt);
+    }
+
+    public void render(SpriteBatch sb) {
+        gigaGal.render(sb);
+    }
 }

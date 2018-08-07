@@ -13,7 +13,7 @@ public class Assets implements Disposable, AssetErrorListener {
     public static final String TAG = Assets.class.getName();
     public static final Assets instance = new Assets();
 
-    public GigaGalAssests gigaGalAssests;
+    public GigaGalAssests gigaGalAssets;
 
     private AssetManager assetManager;
 
@@ -21,14 +21,14 @@ public class Assets implements Disposable, AssetErrorListener {
 
     }
 
-    public void init() {
-        this.assetManager = new AssetManager();
+    public void init(AssetManager assetManager) {
+        this.assetManager = assetManager;
         assetManager.setErrorListener(this);
         assetManager.load(Constants.TEXTURE_ATLAS, TextureAtlas.class);
         assetManager.finishLoading();
 
         TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS);
-        gigaGalAssests = new GigaGalAssests(atlas);
+        gigaGalAssets = new GigaGalAssests(atlas);
     }
 
     @Override

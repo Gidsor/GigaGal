@@ -2,6 +2,7 @@ package com.gidsor.gigagal;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -12,12 +13,16 @@ import com.gidsor.gigagal.util.Constants;
 public class GameplayScreen extends ScreenAdapter {
     private static final String TAG = GameplayScreen.class.getName();
 
+    Level level;
     SpriteBatch batch;
     ExtendViewport viewport;
 
     @Override
     public void show() {
-        Assets.instance.init();
+        AssetManager am = new AssetManager();
+        Assets.instance.init(am);
+
+        level = new Level();
         batch = new SpriteBatch();
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
     }
@@ -35,6 +40,7 @@ public class GameplayScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+        level.update(delta);
         viewport.apply();
 
         Gdx.gl.glClearColor(
@@ -48,25 +54,8 @@ public class GameplayScreen extends ScreenAdapter {
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
 
-        TextureRegion region = Assets.instance.gigaGalAssests.standingRight;
-        batch.draw(
-                region.getTexture(),
-                50,
-                50,
-                0,
-                0,
-                region.getRegionWidth(),
-                region.getRegionHeight(),
-                1,
-                1,
-                0,
-                region.getRegionX(),
-                region.getRegionY(),
-                region.getRegionWidth(),
-                region.getRegionHeight(),
-                false,
-                false
-        );
+        TextureRegion region = Assets.instance.gigaGalAssets.standingRight;
+        level.render(batch);
         batch.end();
     }
 }
