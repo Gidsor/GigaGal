@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Constants {
     public static final Color BACKGROUND_COLOR = Color.SKY;
-    public static final float WORLD_SIZE = 192;
+    public static final float WORLD_SIZE = 160;
     public static final float KILL_PLANE = -100;
 
     public static final String TEXTURE_ATLAS = "images/gigagal.pack.atlas";
@@ -23,6 +23,7 @@ public class Constants {
     public static final String WALKING_LEFT_2 = "walk-2-left";
     public static final String WALKING_LEFT_3 = "walk-3-left";
     public static final String PLATFORM_SPRITE = "platform";
+    public static final String ENEMY_SPRITE = "enemy";
 
     public static final Vector2 GIGAGAL_EYE_POSITION = new Vector2(16, 24);
     public static final float GIGAGAL_EYE_HEIGHT = 16.0f;
@@ -37,4 +38,5 @@ public class Constants {
     public static final float CHASE_CAM_MOVE_SPEED = 128;
 
     public static final int PLATFORM_EDGE = 8;
+    public static final Vector2 ENEMY_CENTER = new Vector2(14, 22);
 }

@@ -26,8 +26,8 @@ public class ChaseCam {
 //        }
 
         if (following) {
-            camera.position.x = target.position.x;
-            camera.position.y = target.position.y;
+            camera.position.x = target.getPosition().x;
+            camera.position.y = target.getPosition().y;
         } else {
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
                 camera.position.x -= dt * Constants.CHASE_CAM_MOVE_SPEED;

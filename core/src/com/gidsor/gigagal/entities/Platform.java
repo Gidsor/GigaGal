@@ -10,6 +10,7 @@ public class Platform {
     float top;
     float right;
     float bottom;
+    String identifier;
 
     public Platform(float left, float top, float width, float height) {
         this.left = left;
@@ -29,5 +30,13 @@ public class Platform {
                 width + 2,
                 height + 2
         );
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 }
