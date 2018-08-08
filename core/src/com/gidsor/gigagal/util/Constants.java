@@ -34,5 +34,7 @@ public class Constants {
     public static final float MAX_JUMP_DURATION = 0.15f;
     public static final float GRAVITY = 1000;
 
+    public static final float CHASE_CAM_MOVE_SPEED = 128;
+
     public static final int PLATFORM_EDGE = 8;
 }
