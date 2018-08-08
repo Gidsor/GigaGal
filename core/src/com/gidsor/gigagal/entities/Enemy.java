@@ -2,6 +2,7 @@ package com.gidsor.gigagal.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.gidsor.gigagal.util.Assets;
@@ -41,6 +42,10 @@ public class Enemy {
             position.x = platform.right;
             direction = Direction.LEFT;
         }
+
+        final float elapsedTime = Utils.secondsSince(startTime);
+        final float bobMultiplier = 1 + MathUtils.sin(MathUtils.PI2 * elapsedTime / Constants.ENEMY_BOB_PERIOD);
+        position.y = platform.top + Constants.ENEMY_CENTER.y + Constants.ENEMY_BOB_AMPLITUDE * bobMultiplier;
     }
 
     public void render(SpriteBatch batch) {
