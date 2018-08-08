@@ -80,4 +80,8 @@ public class Level {
     public void setGigaGal(GigaGal gigaGal) {
         this.gigaGal = gigaGal;
     }
+
+    public DelayedRemovalArray<Enemy> getEnemies() {
+        return enemies;
+    }
 }

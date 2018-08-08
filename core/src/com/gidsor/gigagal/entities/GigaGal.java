@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -75,7 +76,29 @@ public class GigaGal {
             }
         }
 
+        Rectangle gigaGalBounds = new Rectangle(
+                position.x - Constants.GIGAGAL_STANCE_WIDTH / 2,
+                position.y - Constants.GIGAGAL_EYE_HEIGHT,
+                Constants.GIGAGAL_STANCE_WIDTH,
+                Constants.GIGAGAL_HEIGHT
+        );
 
+        for (Enemy enemy : level.getEnemies()) {
+            Rectangle enemyBounds = new Rectangle(
+                enemy.position.x - Constants.ENEMY_COLLISION_RADIUS,
+                enemy.position.y - Constants.ENEMY_COLLISION_RADIUS,
+                2 * Constants.ENEMY_COLLISION_RADIUS,
+                2 * Constants.ENEMY_COLLISION_RADIUS
+            );
+
+            if (gigaGalBounds.overlaps(enemyBounds)) {
+                if (position.x < enemy.position.x) {
+                    Gdx.app.log(TAG, "Hit -> Left");
+                } else {
+                    Gdx.app.log(TAG, "HIT -> Right");
+                }
+            }
+        }
 
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             switch (jumpState) {
