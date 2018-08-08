@@ -3,6 +3,7 @@ package com.gidsor.gigagal;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gidsor.gigagal.entities.GigaGal;
 import com.gidsor.gigagal.entities.Platform;
@@ -12,7 +13,7 @@ public class Level {
     Array<Platform> platforms;
 
     public Level() {
-        gigaGal = new GigaGal();
+        gigaGal = new GigaGal(new Vector2(15, 40));
         platforms = new Array<Platform>();
         addDebugPlatforms();
     }

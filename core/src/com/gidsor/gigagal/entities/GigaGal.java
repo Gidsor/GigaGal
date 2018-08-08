@@ -25,8 +25,8 @@ public class GigaGal {
     long jumpStartTime;
     long walkStartTime;
 
-    public GigaGal() {
-        position = new Vector2(20, 20);
+    public GigaGal(Vector2 position) {
+        this.position = position;
         lastFramePosition = new Vector2(position);
 
         facing = Facing.RIGHT;
@@ -44,12 +44,6 @@ public class GigaGal {
 
         if (jumpState != JumpState.JUMPING) {
             jumpState = JumpState.FALLING;
-
-            if (position.y - Constants.GIGAGAL_EYE_HEIGHT < 0) {
-                jumpState = JumpState.GROUNDED;
-                position.y = Constants.GIGAGAL_EYE_HEIGHT;
-                velocity.y = 0;
-            }
 
             for (Platform platform : platforms) {
                 if (landeOnPlatform(platform)) {
