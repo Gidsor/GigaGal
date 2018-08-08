@@ -5,8 +5,6 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.gidsor.gigagal.util.Assets;
 import com.gidsor.gigagal.util.ChaseCam;
@@ -19,23 +17,23 @@ public class GameplayScreen extends ScreenAdapter {
 
     Level level;
     SpriteBatch batch;
-    ExtendViewport viewport;
+    ExtendViewport gameplayViewport;
 
     @Override
     public void show() {
         AssetManager am = new AssetManager();
         Assets.instance.init(am);
 
-        level = new Level(viewport);
+        level = new Level(gameplayViewport);
         batch = new SpriteBatch();
-        viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
+        gameplayViewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
 
-        chaseCam = new ChaseCam(viewport.getCamera(), level.getGigaGal());
+        chaseCam = new ChaseCam(gameplayViewport.getCamera(), level.getGigaGal());
     }
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height, true);
+        gameplayViewport.update(width, height, true);
     }
 
     @Override
@@ -49,7 +47,7 @@ public class GameplayScreen extends ScreenAdapter {
 
         chaseCam.update(delta);
 
-        viewport.apply();
+        gameplayViewport.apply();
 
         Gdx.gl.glClearColor(
                 Constants.BACKGROUND_COLOR.r,
@@ -59,7 +57,9 @@ public class GameplayScreen extends ScreenAdapter {
         );
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        batch.setProjectionMatrix(viewport.getCamera().combined);
+        batch.setProjectionMatrix(gameplayViewport.getCamera().combined);
+        batch.begin();
         level.render(batch);
+        batch.end();
     }
 }
