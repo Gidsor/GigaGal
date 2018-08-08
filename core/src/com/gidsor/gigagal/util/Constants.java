@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 public class Constants {
     public static final Color BACKGROUND_COLOR = Color.SKY;
     public static final float WORLD_SIZE = 192;
+    public static final float KILL_PLANE = -100;
+
     public static final String TEXTURE_ATLAS = "images/gigagal.pack.atlas";
 
     public static final String STANDING_RIGHT = "standing-right";

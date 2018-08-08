@@ -19,28 +19,39 @@ public class GigaGal {
     WalkState walkState;
 
     public Vector2 position;
+    Vector2 spawnLocation;
     Vector2 velocity;
     Vector2 lastFramePosition;
 
     long jumpStartTime;
     long walkStartTime;
 
-    public GigaGal(Vector2 position) {
-        this.position = position;
-        lastFramePosition = new Vector2(position);
+    public GigaGal(Vector2 spawnLocation) {
+        this.spawnLocation = spawnLocation;
+        position = new Vector2();
+        lastFramePosition = new Vector2();
+        velocity = new Vector2();
 
+        init();
+    }
+
+    public void init() {
+        position.set(spawnLocation);
+        lastFramePosition.set(spawnLocation);
+        velocity.setZero();
+        jumpState = JumpState.FALLING;
         facing = Facing.RIGHT;
         walkState = WalkState.STANDING;
-        velocity = new Vector2();
-        jumpState = JumpState.FALLING;
-
     }
 
     public void update(float dt, Array<Platform> platforms) {
         lastFramePosition.set(position);
-
         velocity.y -= dt * Constants.GRAVITY;
         position.mulAdd(velocity, dt);
+
+        if (position.y < Constants.KILL_PLANE) {
+            init();
+        }
 
         if (jumpState != JumpState.JUMPING) {
             jumpState = JumpState.FALLING;
