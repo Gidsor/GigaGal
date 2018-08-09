@@ -1,5 +1,5 @@
 # GigaGal
-
+В разработке.
 ## Лицензия
 
     MIT License
