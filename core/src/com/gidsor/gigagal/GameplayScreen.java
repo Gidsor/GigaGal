@@ -24,9 +24,9 @@ public class GameplayScreen extends ScreenAdapter {
         AssetManager am = new AssetManager();
         Assets.instance.init(am);
 
-        level = new Level(gameplayViewport);
         batch = new SpriteBatch();
         gameplayViewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
+        level = new Level(gameplayViewport);
 
         chaseCam = new ChaseCam(gameplayViewport.getCamera(), level.getGigaGal());
     }

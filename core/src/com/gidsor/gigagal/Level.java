@@ -4,16 +4,18 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.gidsor.gigagal.entities.Bullet;
 import com.gidsor.gigagal.entities.Enemy;
 import com.gidsor.gigagal.entities.GigaGal;
 import com.gidsor.gigagal.entities.Platform;
 import com.gidsor.gigagal.util.Assets;
 import com.gidsor.gigagal.util.Constants;
-import com.gidsor.gigagal.util.Utils;
+import com.gidsor.gigagal.util.Enums.*;
 
 public class Level {
     public static final String TAG = Level.class.getName();
@@ -23,6 +25,7 @@ public class Level {
     private Array<Platform> platforms;
 
     private DelayedRemovalArray<Enemy> enemies;
+    private DelayedRemovalArray<Bullet> bullets;
 
     public Level(Viewport viewport) {
         this.viewport = viewport;
@@ -31,6 +34,23 @@ public class Level {
 
     public void update(float delta) {
         gigaGal.update(delta, platforms);
+
+        Direction direction;
+        if (MathUtils.randomBoolean()) {
+            direction = Direction.RIGHT;
+        } else {
+            direction = Direction.LEFT;
+        }
+
+        float x = MathUtils.random(viewport.getWorldWidth());
+        float y = MathUtils.random(viewport.getWorldHeight());
+
+        Vector2 position = new Vector2(x, y);
+        spawnBullet(position, direction);
+
+        for (Bullet bullet : bullets) {
+            bullet.update(delta);
+        }
 
         for (Enemy enemy : enemies) {
             enemy.update(delta);
@@ -48,51 +68,16 @@ public class Level {
 
         gigaGal.render(batch);
 
-        // TODO: Test draw the bullet
-        Utils.drawTextureRegion(
-                batch,
-                Assets.instance.bulletAssets.bullet,
-                new Vector2(0, 0),
-                Constants.BULLET_CENTER
-        );
-
-        // TODO: Test draw the powerup
-        Utils.drawTextureRegion(
-                batch,
-                Assets.instance.powerupAssets.powerup,
-                new Vector2(20, 0),
-                Constants.POWERUP_CENTER
-        );
-
-        // TODO: Test draw the first frame of the explosion
-        Utils.drawTextureRegion(
-                batch,
-                (TextureRegion) Assets.instance.explosionAssets.explosion.getKeyFrame(0),
-                new Vector2(40, 0),
-                Constants.EXPLOSION_CENTER
-        );
-
-        // TODO: Test draw the second frame of the explosion
-        Utils.drawTextureRegion(
-                batch,
-                (TextureRegion) Assets.instance.explosionAssets.explosion.getKeyFrame(Constants.EXPLOSION_DURATION * 0.5f),
-                new Vector2(60, 0),
-                Constants.EXPLOSION_CENTER
-        );
-
-        // TODO: Test draw the third frame of the explosion
-        Utils.drawTextureRegion(
-                batch,
-                (TextureRegion) Assets.instance.explosionAssets.explosion.getKeyFrame(Constants.EXPLOSION_DURATION * 0.75f),
-                new Vector2(80, 0),
-                Constants.EXPLOSION_CENTER
-        );
+        for (Bullet bullet : bullets) {
+            bullet.render(batch);
+        }
     }
 
     private void initializeDebugLevel() {
         gigaGal = new GigaGal(new Vector2(14, 40), this);
         platforms = new Array<Platform>();
         enemies = new DelayedRemovalArray<Enemy>();
+        bullets = new DelayedRemovalArray<Bullet>();
 
         platforms.add(new Platform(15, 100, 30, 20));
 
@@ -126,5 +111,9 @@ public class Level {
 
     public DelayedRemovalArray<Enemy> getEnemies() {
         return enemies;
+    }
+
+    public void spawnBullet(Vector2 position, Direction direction) {
+        bullets.add(new Bullet(position, direction));
     }
 }
