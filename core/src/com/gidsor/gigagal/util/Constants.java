@@ -30,6 +30,8 @@ public class Constants {
     public static final float GIGAGAL_STANCE_WIDTH = 21.0f;
     public static final float GIGAGAL_HEIGHT = 23.0f;
 
+    public static final Vector2 KNOCKBACK_VELOCITY = new Vector2(200, 200);
+
     public static final float GIGAGAL_MOVE_SPEED = 64.0f;
     public static final float WALK_LOOP_DURATION = 0.25f;
     public static final float JUMP_SPEED = 250.0f;

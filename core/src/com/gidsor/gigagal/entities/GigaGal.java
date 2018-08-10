@@ -93,9 +93,9 @@ public class GigaGal {
 
             if (gigaGalBounds.overlaps(enemyBounds)) {
                 if (position.x < enemy.position.x) {
-                    Gdx.app.log(TAG, "Hit -> Left");
+                    recoilFromEnemy(Direction.LEFT);
                 } else {
-                    Gdx.app.log(TAG, "HIT -> Right");
+                    recoilFromEnemy(Direction.RIGHT);
                 }
             }
         }
@@ -177,6 +177,16 @@ public class GigaGal {
             straddle = (platform.left > leftFoot && platform.right < rightFoot);
         }
         return leftFootIn || rightFootIn || straddle;
+    }
+
+    private void recoilFromEnemy(Direction direction) {
+        velocity.y = Constants.KNOCKBACK_VELOCITY.y;
+
+        if (direction == Direction.LEFT) {
+            velocity.x = -Constants.KNOCKBACK_VELOCITY.x;
+        } else {
+            velocity.x = Constants.KNOCKBACK_VELOCITY.x;
+        }
     }
 
     public void render(SpriteBatch batch) {
