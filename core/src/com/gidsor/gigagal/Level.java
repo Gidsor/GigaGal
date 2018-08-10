@@ -1,6 +1,7 @@
 package com.gidsor.gigagal;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
@@ -46,6 +47,46 @@ public class Level {
         }
 
         gigaGal.render(batch);
+
+        // TODO: Test draw the bullet
+        Utils.drawTextureRegion(
+                batch,
+                Assets.instance.bulletAssets.bullet,
+                new Vector2(0, 0),
+                Constants.BULLET_CENTER
+        );
+
+        // TODO: Test draw the powerup
+        Utils.drawTextureRegion(
+                batch,
+                Assets.instance.powerupAssets.powerup,
+                new Vector2(20, 0),
+                Constants.POWERUP_CENTER
+        );
+
+        // TODO: Test draw the first frame of the explosion
+        Utils.drawTextureRegion(
+                batch,
+                (TextureRegion) Assets.instance.explosionAssets.explosion.getKeyFrame(0),
+                new Vector2(40, 0),
+                Constants.EXPLOSION_CENTER
+        );
+
+        // TODO: Test draw the second frame of the explosion
+        Utils.drawTextureRegion(
+                batch,
+                (TextureRegion) Assets.instance.explosionAssets.explosion.getKeyFrame(Constants.EXPLOSION_DURATION * 0.5f),
+                new Vector2(60, 0),
+                Constants.EXPLOSION_CENTER
+        );
+
+        // TODO: Test draw the third frame of the explosion
+        Utils.drawTextureRegion(
+                batch,
+                (TextureRegion) Assets.instance.explosionAssets.explosion.getKeyFrame(Constants.EXPLOSION_DURATION * 0.75f),
+                new Vector2(80, 0),
+                Constants.EXPLOSION_CENTER
+        );
     }
 
     private void initializeDebugLevel() {
