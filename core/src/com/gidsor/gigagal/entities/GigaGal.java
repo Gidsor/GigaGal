@@ -65,12 +65,16 @@ public class GigaGal {
         }
 
         if (jumpState != JumpState.JUMPING) {
-            jumpState = JumpState.FALLING;
+
+            if (jumpState != JumpState.RECOILING) {
+                jumpState = JumpState.FALLING;
+            }
 
             for (Platform platform : platforms) {
                 if (landeOnPlatform(platform)) {
                     jumpState = JumpState.GROUNDED;
                     velocity.y = 0;
+                    velocity.x = 0;
                     position.y = platform.top + Constants.GIGAGAL_EYE_HEIGHT;
                 }
             }
@@ -110,12 +114,14 @@ public class GigaGal {
             endJump();
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            moveLeft(dt);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            moveRight(dt);
-        } else {
-            walkState = WalkState.STANDING;
+        if (jumpState != JumpState.RECOILING) {
+            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                moveLeft(dt);
+            } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                moveRight(dt);
+            } else {
+                walkState = WalkState.STANDING;
+            }
         }
     }
 
@@ -180,6 +186,7 @@ public class GigaGal {
     }
 
     private void recoilFromEnemy(Direction direction) {
+        jumpState = JumpState.RECOILING;
         velocity.y = Constants.KNOCKBACK_VELOCITY.y;
 
         if (direction == Direction.LEFT) {

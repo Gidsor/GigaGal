@@ -9,7 +9,8 @@ public class Enums {
     public enum JumpState {
         JUMPING,
         FALLING,
-        GROUNDED
+        GROUNDED,
+        RECOILING
     }
 
     public enum WalkState {

@@ -53,6 +53,8 @@ public class Level {
         platforms = new Array<Platform>();
         enemies = new DelayedRemovalArray<Enemy>();
 
+        platforms.add(new Platform(15, 100, 30, 20));
+
         Platform enemyPlatform = new Platform(75, 90, 100, 65);
         enemies.add(new Enemy(enemyPlatform));
         platforms.add(enemyPlatform);
