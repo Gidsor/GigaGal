@@ -35,21 +35,12 @@ public class Level {
     public void update(float delta) {
         gigaGal.update(delta, platforms);
 
-        Direction direction;
-        if (MathUtils.randomBoolean()) {
-            direction = Direction.RIGHT;
-        } else {
-            direction = Direction.LEFT;
-        }
-
-        float x = MathUtils.random(viewport.getWorldWidth());
-        float y = MathUtils.random(viewport.getWorldHeight());
-
-        Vector2 position = new Vector2(x, y);
-        spawnBullet(position, direction);
-
+        bullets.begin();
         for (Bullet bullet : bullets) {
             bullet.update(delta);
+            if (!bullet.active) {
+                bullets.removeValue(bullet, false);
+            }
         }
 
         for (Enemy enemy : enemies) {

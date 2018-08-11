@@ -123,6 +123,24 @@ public class GigaGal {
                 walkState = WalkState.STANDING;
             }
         }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
+            Vector2 bulletPosition;
+
+            if (direction == Direction.RIGHT) {
+                bulletPosition = new Vector2(
+                        position.x + Constants.GIGAGAL_CANNON_OFFSET.x,
+                        position.y + Constants.GIGAGAL_CANNON_OFFSET.y
+                );
+            } else {
+                bulletPosition = new Vector2(
+                        position.x - Constants.GIGAGAL_CANNON_OFFSET.x,
+                        position.y + Constants.GIGAGAL_CANNON_OFFSET.y
+                );
+            }
+
+            level.spawnBullet(bulletPosition, direction);
+        }
     }
 
     private void moveLeft(float dt) {
