@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gidsor.gigagal.entities.Bullet;
 import com.gidsor.gigagal.entities.Enemy;
+import com.gidsor.gigagal.entities.Explosion;
 import com.gidsor.gigagal.entities.GigaGal;
 import com.gidsor.gigagal.entities.Platform;
 import com.gidsor.gigagal.util.Assets;
@@ -26,6 +27,7 @@ public class Level {
 
     private DelayedRemovalArray<Enemy> enemies;
     private DelayedRemovalArray<Bullet> bullets;
+    private DelayedRemovalArray<Explosion> explosions;
 
     public Level(Viewport viewport) {
         this.viewport = viewport;
@@ -50,10 +52,19 @@ public class Level {
             enemy.update(delta);
 
             if (enemy.health < 1) {
+                spawnExplosion(enemy.position);
                 enemies.removeValue(enemy, false);
             }
         }
         enemies.end();
+
+        explosions.begin();
+        for (Explosion explosion : explosions) {
+            if (explosion.isFineshed()) {
+                explosions.removeValue(explosion, false);
+            }
+        }
+        explosions.end();
     }
 
     public void render(SpriteBatch batch) {
@@ -70,6 +81,10 @@ public class Level {
         for (Bullet bullet : bullets) {
             bullet.render(batch);
         }
+
+        for (Explosion explosion : explosions) {
+            explosion.render(batch);
+        }
     }
 
     private void initializeDebugLevel() {
@@ -77,6 +92,7 @@ public class Level {
         platforms = new Array<Platform>();
         enemies = new DelayedRemovalArray<Enemy>();
         bullets = new DelayedRemovalArray<Bullet>();
+        explosions = new DelayedRemovalArray<Explosion>();
 
         platforms.add(new Platform(15, 100, 30, 20));
 
@@ -114,5 +130,9 @@ public class Level {
 
     public void spawnBullet(Vector2 position, Direction direction) {
         bullets.add(new Bullet(this, position, direction));
+    }
+
+    public void spawnExplosion(Vector2 position) {
+        explosions.add(new Explosion(position));
     }
 }
