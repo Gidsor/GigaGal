@@ -33,6 +33,13 @@ public class Bullet {
                 break;
         }
 
+        for (Enemy enemy : level.getEnemies()) {
+            if (position.dst(enemy.position) < Constants.ENEMY_SHOT_RADIUS) {
+                active = false;
+                enemy.health--;
+            }
+        }
+
         final float worldWidth = level.getViewport().getWorldWidth();
         final float cameraX = level.getViewport().getCamera().position.x;
 

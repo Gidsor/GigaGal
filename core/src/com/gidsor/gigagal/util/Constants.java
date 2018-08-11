@@ -53,6 +53,9 @@ public class Constants {
     public static final Vector2 BULLET_CENTER = new Vector2(3, 2);
     public static final float BULLET_MOVE_SPEED = 150;
 
+    public static final int ENEMY_HEALTH = 5;
+    public static final float ENEMY_SHOT_RADIUS = 17f;
+
     public static final String EXPLOSION_LARGE = "explosion-large";
     public static final String EXPLOSION_MEDIUM = "explosion-medium";
     public static final String EXPLOSION_SMALL = "explosion-small";

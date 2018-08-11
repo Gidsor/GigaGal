@@ -43,10 +43,17 @@ public class Level {
                 bullets.removeValue(bullet, false);
             }
         }
+        bullets.end();
 
+        enemies.begin();
         for (Enemy enemy : enemies) {
             enemy.update(delta);
+
+            if (enemy.health < 1) {
+                enemies.removeValue(enemy, false);
+            }
         }
+        enemies.end();
     }
 
     public void render(SpriteBatch batch) {
@@ -74,7 +81,7 @@ public class Level {
         platforms.add(new Platform(15, 100, 30, 20));
 
         Platform enemyPlatform = new Platform(75, 90, 100, 65);
-        enemies.add(new Enemy(enemyPlatform));
+        enemies.add(new Enemy(new Platform(35, 55, 50, 20)));
         platforms.add(enemyPlatform);
 
         platforms.add(new Platform(35, 55, 50, 20));

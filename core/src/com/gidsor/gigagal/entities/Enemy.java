@@ -17,12 +17,16 @@ public class Enemy {
     private Direction direction;
     final long startTime;
 
+    public int health;
+
     public Enemy(Platform platform) {
         this.platform = platform;
 
         direction = Direction.RIGHT;
         position = new Vector2(platform.left, platform.top + Constants.ENEMY_CENTER.y);
         startTime = TimeUtils.nanoTime();
+
+        health = Constants.ENEMY_HEALTH;
     }
 
     public void update(float delta) {
