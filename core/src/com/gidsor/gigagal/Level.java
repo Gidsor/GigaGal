@@ -14,6 +14,7 @@ import com.gidsor.gigagal.entities.Enemy;
 import com.gidsor.gigagal.entities.Explosion;
 import com.gidsor.gigagal.entities.GigaGal;
 import com.gidsor.gigagal.entities.Platform;
+import com.gidsor.gigagal.entities.Powerup;
 import com.gidsor.gigagal.util.Assets;
 import com.gidsor.gigagal.util.Constants;
 import com.gidsor.gigagal.util.Enums.*;
@@ -28,6 +29,7 @@ public class Level {
     private DelayedRemovalArray<Enemy> enemies;
     private DelayedRemovalArray<Bullet> bullets;
     private DelayedRemovalArray<Explosion> explosions;
+    private DelayedRemovalArray<Powerup> powerups;
 
     public Level(Viewport viewport) {
         this.viewport = viewport;
@@ -72,6 +74,10 @@ public class Level {
             platform.render(batch);
         }
 
+        for (Powerup powerup : powerups) {
+            powerup.render(batch);
+        }
+
         for (Enemy enemy : enemies) {
             enemy.render(batch);
         }
@@ -93,6 +99,7 @@ public class Level {
         enemies = new DelayedRemovalArray<Enemy>();
         bullets = new DelayedRemovalArray<Bullet>();
         explosions = new DelayedRemovalArray<Explosion>();
+        powerups = new DelayedRemovalArray<Powerup>();
 
         platforms.add(new Platform(15, 100, 30, 20));
 
@@ -102,6 +109,8 @@ public class Level {
 
         platforms.add(new Platform(35, 55, 50, 20));
         platforms.add(new Platform(10, 20, 20, 9));
+
+        powerups.add(new Powerup(new Vector2(20, 110)));
     }
 
     public Array<Platform> getPlatforms() {
@@ -126,6 +135,10 @@ public class Level {
 
     public DelayedRemovalArray<Enemy> getEnemies() {
         return enemies;
+    }
+
+    public DelayedRemovalArray<Powerup> getPowerups() {
+        return powerups;
     }
 
     public void spawnBullet(Vector2 position, Direction direction) {
