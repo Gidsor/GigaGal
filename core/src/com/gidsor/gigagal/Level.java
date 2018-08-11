@@ -38,6 +38,7 @@ public class Level {
         bullets.begin();
         for (Bullet bullet : bullets) {
             bullet.update(delta);
+
             if (!bullet.active) {
                 bullets.removeValue(bullet, false);
             }
@@ -105,6 +106,6 @@ public class Level {
     }
 
     public void spawnBullet(Vector2 position, Direction direction) {
-        bullets.add(new Bullet(position, direction));
+        bullets.add(new Bullet(this, position, direction));
     }
 }
