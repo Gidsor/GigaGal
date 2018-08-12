@@ -2,11 +2,15 @@ package com.gidsor.gigagal.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gidsor.gigagal.Level;
 import com.gidsor.gigagal.entities.Enemy;
+import com.gidsor.gigagal.entities.ExitPortal;
+import com.gidsor.gigagal.entities.GigaGal;
 import com.gidsor.gigagal.entities.Platform;
+import com.gidsor.gigagal.entities.Powerup;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -31,6 +35,9 @@ public class LevelLoader {
             JSONObject composite = (JSONObject) rootJsonObject.get(Constants.LEVEL_COMPOSITE);
             JSONArray platforms = (JSONArray) composite.get(Constants.LEVEL_9PATCHES);
             loadPlatform(platforms, level);
+
+            JSONArray nonPlatformObjects = (JSONArray) composite.get(Constants.LEVEL_IMAGES);
+            loadNonPlatformEntities(level, nonPlatformObjects);
         } catch (Exception ex) {
             Gdx.app.error(TAG, ex.getMessage());
             Gdx.app.error(TAG, Constants.LEVEL_ERROR_MESSAGE);
@@ -83,5 +90,31 @@ public class LevelLoader {
         });
 
         level.getPlatforms().addAll(platforms);
+    }
+
+    private static void loadNonPlatformEntities(Level level, JSONArray nonPlatformObjects) {
+        for (Object o : nonPlatformObjects) {
+            JSONObject item = (JSONObject) o;
+            Vector2 lowerLeftCorner = new Vector2();
+
+            final float x = safeGetFloat(item, Constants.LEVEL_X_KEY);
+            final float y = safeGetFloat(item, Constants.LEVEL_Y_KEY);
+
+            lowerLeftCorner = new Vector2(x, y);
+
+            if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.STANDING_RIGHT)) {
+                final Vector2 gigaGalPosition = lowerLeftCorner.add(Constants.GIGAGAL_EYE_POSITION);
+                Gdx.app.log(TAG, "Loaded Gigagal at " + gigaGalPosition);
+                level.setGigaGal(new GigaGal(gigaGalPosition, level));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.EXIT_PORTAL_SPRITE_1)) {
+                final Vector2 exitPortalPosition = lowerLeftCorner.add(Constants.EXIT_PORTAL_CENTER);
+                Gdx.app.log(TAG, "Loaded the exit portal at " + exitPortalPosition);
+                level.setExitPortal(new ExitPortal(exitPortalPosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.POWERUP_SPRITE)) {
+                final Vector2 powerupPosition = lowerLeftCorner.add(Constants.POWERUP_CENTER);
+                Gdx.app.log(TAG, "Loaded a powerup at " + powerupPosition);
+                level.getPowerups().add(new Powerup(powerupPosition));
+            }
+        }
     }
 }

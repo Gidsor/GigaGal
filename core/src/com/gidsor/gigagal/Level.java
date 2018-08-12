@@ -25,6 +25,7 @@ public class Level {
 
     private Viewport viewport;
     private GigaGal gigaGal;
+
     private ExitPortal exitPortal;
 
     private Array<Platform> platforms;
@@ -164,5 +165,13 @@ public class Level {
 
     public void spawnExplosion(Vector2 position) {
         explosions.add(new Explosion(position));
+    }
+
+    public ExitPortal getExitPortal() {
+        return exitPortal;
+    }
+
+    public void setExitPortal(ExitPortal exitPortal) {
+        this.exitPortal = exitPortal;
     }
 }
