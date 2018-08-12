@@ -25,7 +25,6 @@ public class Level {
     private Viewport viewport;
     private GigaGal gigaGal;
     private Array<Platform> platforms;
-
     private DelayedRemovalArray<Enemy> enemies;
     private DelayedRemovalArray<Bullet> bullets;
     private DelayedRemovalArray<Explosion> explosions;

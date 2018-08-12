@@ -19,21 +19,22 @@ import com.gidsor.gigagal.util.Utils;
 public class GigaGal {
     public static final String TAG = GigaGal.class.getName();
 
-    Direction direction;
-    JumpState jumpState;
-    WalkState walkState;
+    private Direction direction;
+    private JumpState jumpState;
+    private WalkState walkState;
 
-    Vector2 position;
-    Vector2 spawnLocation;
-    Vector2 velocity;
-    Vector2 lastFramePosition;
+    private Vector2 position;
+    private Vector2 spawnLocation;
+    private Vector2 velocity;
+    private Vector2 lastFramePosition;
 
-    long jumpStartTime;
-    long walkStartTime;
+    private long jumpStartTime;
+    private long walkStartTime;
 
-    int ammo;
+    private int ammo;
+    private int lives;
 
-    Level level;
+    private Level level;
 
     public GigaGal(Vector2 spawnLocation, Level level) {
         this.spawnLocation = spawnLocation;
@@ -46,13 +47,18 @@ public class GigaGal {
     }
 
     public void init() {
+        ammo = Constants.INITIAL_AMMO;
+        lives = Constants.INITIAL_LIVES;
+        respawn();
+    }
+
+    private void respawn() {
         position.set(spawnLocation);
         lastFramePosition.set(spawnLocation);
         velocity.setZero();
         jumpState = JumpState.FALLING;
         direction = Direction.RIGHT;
         walkState = WalkState.STANDING;
-        ammo = Constants.INTIAL_AMMO;
     }
 
     public Vector2 getPosition() {

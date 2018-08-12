@@ -6,11 +6,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.gidsor.gigagal.util.Assets;
 
 public class Platform {
-    float left;
-    float top;
-    float right;
-    float bottom;
-    String identifier;
+    public float left;
+    public float top;
+    public float right;
+    public float bottom;
+    public String identifier;
 
     public Platform(float left, float top, float width, float height) {
         this.left = left;
