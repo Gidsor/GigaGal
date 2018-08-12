@@ -70,6 +70,17 @@ public class Constants {
     public static final String POWERUP_SPRITE = "powerup";
     public static final Vector2 POWERUP_CENTER = new Vector2(7, 5);
 
+    public static final String EXIT_PORTAL_SPRITE_1 = "exit-portal-1";
+    public static final String EXIT_PORTAL_SPRITE_2 = "exit-portal-2";
+    public static final String EXIT_PORTAL_SPRITE_3 = "exit-portal-3";
+    public static final String EXIT_PORTAL_SPRITE_4 = "exit-portal-4";
+    public static final String EXIT_PORTAL_SPRITE_5 = "exit-portal-5";
+    public static final String EXIT_PORTAL_SPRITE_6 = "exit-portal-6";
+    public static final Vector2 EXIT_PORTAL_CENTER = new Vector2(31, 31);
+
+    public static final float EXIT_PORTAL_FRAME_DURATION = 0.1f;
+    public static final Vector2 EXIT_PORTAL_DEFAULT_LOCATION = new Vector2(200, 200);
+
     public static final String LEVEL_DIR = "levels";
     public static final String LEVEL_FILE_EXTENSION = "dt";
     public static final String LEVEL_COMPOSITE = "composite";

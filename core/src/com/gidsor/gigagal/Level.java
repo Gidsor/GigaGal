@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gidsor.gigagal.entities.Bullet;
 import com.gidsor.gigagal.entities.Enemy;
+import com.gidsor.gigagal.entities.ExitPortal;
 import com.gidsor.gigagal.entities.Explosion;
 import com.gidsor.gigagal.entities.GigaGal;
 import com.gidsor.gigagal.entities.Platform;
@@ -24,6 +25,8 @@ public class Level {
 
     private Viewport viewport;
     private GigaGal gigaGal;
+    private ExitPortal exitPortal;
+
     private Array<Platform> platforms;
     private DelayedRemovalArray<Enemy> enemies;
     private DelayedRemovalArray<Bullet> bullets;
@@ -39,6 +42,8 @@ public class Level {
         bullets = new DelayedRemovalArray<Bullet>();
         explosions = new DelayedRemovalArray<Explosion>();
         powerups = new DelayedRemovalArray<Powerup>();
+
+        exitPortal = new ExitPortal(Constants.EXIT_PORTAL_DEFAULT_LOCATION);
     }
 
     public void update(float delta) {
@@ -79,6 +84,8 @@ public class Level {
             platform.render(batch);
         }
 
+        exitPortal.render(batch);
+
         for (Powerup powerup : powerups) {
             powerup.render(batch);
         }
@@ -100,6 +107,8 @@ public class Level {
 
     public void initializeDebugLevel() {
         gigaGal = new GigaGal(new Vector2(15, 40), this);
+
+        exitPortal = new ExitPortal(new Vector2(150, 150));
 
         platforms = new Array<Platform>();
         bullets = new DelayedRemovalArray<Bullet>();

@@ -23,6 +23,7 @@ public class Assets implements Disposable, AssetErrorListener {
     public PowerupAssets powerupAssets;
     public PlatformAssets platformAssets;
     public EnemyAssets enemyAssets;
+    public ExitPortalAssets exitPortalAssets;
 
     private AssetManager assetManager;
 
@@ -43,6 +44,7 @@ public class Assets implements Disposable, AssetErrorListener {
         powerupAssets = new PowerupAssets(atlas);
         platformAssets = new PlatformAssets(atlas);
         enemyAssets = new EnemyAssets(atlas);
+        exitPortalAssets = new ExitPortalAssets(atlas);
     }
 
     @Override
@@ -140,6 +142,30 @@ public class Assets implements Disposable, AssetErrorListener {
 
         public EnemyAssets(TextureAtlas atlas) {
             enemy = atlas.findRegion(Constants.ENEMY_SPRITE);
+        }
+    }
+
+    public class ExitPortalAssets {
+        public final Animation exitPortal;
+
+        public ExitPortalAssets(TextureAtlas atlas) {
+            final AtlasRegion exitPortal1 = atlas.findRegion(Constants.EXIT_PORTAL_SPRITE_1);
+            final AtlasRegion exitPortal2 = atlas.findRegion(Constants.EXIT_PORTAL_SPRITE_2);
+            final AtlasRegion exitPortal3 = atlas.findRegion(Constants.EXIT_PORTAL_SPRITE_3);
+            final AtlasRegion exitPortal4 = atlas.findRegion(Constants.EXIT_PORTAL_SPRITE_4);
+            final AtlasRegion exitPortal5 = atlas.findRegion(Constants.EXIT_PORTAL_SPRITE_5);
+            final AtlasRegion exitPortal6 = atlas.findRegion(Constants.EXIT_PORTAL_SPRITE_6);
+
+            Array<AtlasRegion> exitPortalFrames = new Array<AtlasRegion>();
+            exitPortalFrames.addAll(
+                    exitPortal1,
+                    exitPortal2,
+                    exitPortal3,
+                    exitPortal4,
+                    exitPortal5,
+                    exitPortal6
+            );
+            exitPortal = new Animation(Constants.EXIT_PORTAL_FRAME_DURATION, exitPortalFrames);
         }
     }
 }
