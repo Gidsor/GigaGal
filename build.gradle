@@ -90,8 +90,31 @@ project(":core") {
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-        
+
+        compile ('com.googlecode.json-simple:json-simple:1.1.1') {
+            exclude module: 'junit'
+        }
     }
+
+    task packTextures {
+        def pack = new File("${rootProject.getRootDir()}/android/assets/images/gigagal.pack.png")
+        def atlas = new File("${rootProject.getRootDir()}/android/assets/images/gigagal.pack.atlas")
+
+        inputs.dir "${rootProject.getRootDir()}/core/rawAssets/sprites"
+        outputs.file "${rootProject.getRootDir()}/android/assets/images/gigagal.pack.png"
+        outputs.file "${rootProject.getRootDir()}/android/assets/images/gigagal.pack.atlas"
+
+    }
+
+    task copyLevels(type: Copy){
+        from "../GigaGalLevels/scenes"
+        into "../android/assets/levels"
+        exclude "MainScene.dt"
+    }
+
+    project.tasks.compileJava.dependsOn packTextures
+    project.tasks.compileJava.dependsOn copyLevels
+
 }
 
 tasks.eclipse.doLast {

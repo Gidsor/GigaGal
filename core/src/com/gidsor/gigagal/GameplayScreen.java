@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.gidsor.gigagal.util.Assets;
 import com.gidsor.gigagal.util.ChaseCam;
 import com.gidsor.gigagal.util.Constants;
+import com.gidsor.gigagal.util.LevelLoader;
 
 public class GameplayScreen extends ScreenAdapter {
     private static final String TAG = GameplayScreen.class.getName();
@@ -26,8 +27,11 @@ public class GameplayScreen extends ScreenAdapter {
 
         batch = new SpriteBatch();
         gameplayViewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
-        level = new Level(gameplayViewport);
 
+//        level = new Level(gameplayViewport);
+//        level.initializeDebugLevel();
+
+        level = LevelLoader.load("Level1", gameplayViewport);
         chaseCam = new ChaseCam(gameplayViewport.getCamera(), level.getGigaGal());
     }
 

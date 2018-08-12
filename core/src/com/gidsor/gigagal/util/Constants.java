@@ -33,6 +33,9 @@ public class Constants {
     public static final Vector2 GIGAGAL_CANNON_OFFSET = new Vector2(12, -7);
     public static final int INTIAL_AMMO = 10;
     public static final int POWERUP_AMMO = 10;
+    public static final Vector2 DEFAULT_SPAWN_LOCATION = new Vector2(100, 100);
+    public static final int INITIAL_AMMO = 10;
+    public static final int INITIAL_LIVES = 3;
 
     public static final Vector2 KNOCKBACK_VELOCITY = new Vector2(200, 200);
 
@@ -66,4 +69,18 @@ public class Constants {
 
     public static final String POWERUP_SPRITE = "powerup";
     public static final Vector2 POWERUP_CENTER = new Vector2(7, 5);
+
+    public static final String LEVEL_DIR = "levels";
+    public static final String LEVEL_FILE_EXTENSION = "dt";
+    public static final String LEVEL_COMPOSITE = "composite";
+    public static final String LEVEL_9PATCHES = "sImage9patchs";
+    public static final String LEVEL_IMAGES = "sImages";
+    public static final String LEVEL_ERROR_MESSAGE = "There was a problem loading the level.";
+    public static final String LEVEL_IMAGENAME_KEY = "imageName";
+    public static final String LEVEL_X_KEY = "x";
+    public static final String LEVEL_Y_KEY = "y";
+    public static final String LEVEL_WIDTH_KEY = "width";
+    public static final String LEVEL_HEIGHT_KEY = "height";
+    public static final String LEVEL_IDENTIFIER_KEY = "itemIdentifier";
+    public static final String LEVEL_ENEMY_TAG = "Enemy";
 }

@@ -33,7 +33,13 @@ public class Level {
 
     public Level(Viewport viewport) {
         this.viewport = viewport;
-        initializeDebugLevel();
+
+        gigaGal = new GigaGal(Constants.DEFAULT_SPAWN_LOCATION, this);
+        platforms = new Array<Platform>();
+        enemies = new DelayedRemovalArray<Enemy>();
+        bullets = new DelayedRemovalArray<Bullet>();
+        explosions = new DelayedRemovalArray<Explosion>();
+        powerups = new DelayedRemovalArray<Powerup>();
     }
 
     public void update(float delta) {
@@ -93,20 +99,23 @@ public class Level {
         }
     }
 
-    private void initializeDebugLevel() {
-        gigaGal = new GigaGal(new Vector2(14, 40), this);
+    public void initializeDebugLevel() {
+        gigaGal = new GigaGal(new Vector2(15, 40), this);
+
         platforms = new Array<Platform>();
-        enemies = new DelayedRemovalArray<Enemy>();
         bullets = new DelayedRemovalArray<Bullet>();
+        enemies = new DelayedRemovalArray<Enemy>();
         explosions = new DelayedRemovalArray<Explosion>();
         powerups = new DelayedRemovalArray<Powerup>();
+
 
         platforms.add(new Platform(15, 100, 30, 20));
 
         Platform enemyPlatform = new Platform(75, 90, 100, 65);
-        enemies.add(new Enemy(new Platform(35, 55, 50, 20)));
-        platforms.add(enemyPlatform);
 
+        enemies.add(new Enemy(enemyPlatform));
+
+        platforms.add(enemyPlatform);
         platforms.add(new Platform(35, 55, 50, 20));
         platforms.add(new Platform(10, 20, 20, 9));
 
