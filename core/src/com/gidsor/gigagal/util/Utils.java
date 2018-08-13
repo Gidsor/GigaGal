@@ -11,6 +11,10 @@ public class Utils {
         drawTextureRegion(batch, region, position.x - offset.x, position.y - offset.y);
     }
 
+    public static void drawTextureRegion(SpriteBatch batch, TextureRegion region, Vector2 position) {
+        drawTextureRegion(batch, region, position.x, position.y);
+    }
+
     public static void drawTextureRegion(SpriteBatch batch, TextureRegion region, float x, float y) {
         batch.draw(
                 region.getTexture(),

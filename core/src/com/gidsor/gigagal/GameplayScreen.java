@@ -63,7 +63,7 @@ public class GameplayScreen extends ScreenAdapter {
 
         batch.begin();
         level.render(batch);
-        hud.render(batch);
+        hud.render(batch, level.getGigaGal().getLives(), level.getGigaGal().getAmmo(), level.score);
         batch.end();
     }
 
@@ -73,5 +73,9 @@ public class GameplayScreen extends ScreenAdapter {
         chaseCam.camera = level.viewport.getCamera();
         chaseCam.target = level.getGigaGal();
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    }
+
+    public void levelComplete() {
+        startNewLevel();
     }
 }

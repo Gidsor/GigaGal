@@ -31,6 +31,14 @@ public class GigaGal {
     private long jumpStartTime;
     private long walkStartTime;
 
+    public int getAmmo() {
+        return ammo;
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
     private int ammo;
     private int lives;
 
@@ -146,6 +154,7 @@ public class GigaGal {
 
             if (gigaGalBounds.overlaps(powerupBounds)) {
                 ammo += Constants.POWERUP_AMMO;
+                level.score += Constants.POWERUP_SCORE;
                 powerups.removeValue(powerup, false);
             }
         }
