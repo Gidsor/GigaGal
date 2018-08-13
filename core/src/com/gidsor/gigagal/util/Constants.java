@@ -94,4 +94,6 @@ public class Constants {
     public static final String LEVEL_HEIGHT_KEY = "height";
     public static final String LEVEL_IDENTIFIER_KEY = "itemIdentifier";
     public static final String LEVEL_ENEMY_TAG = "Enemy";
+
+    public static final float HUD_VIEWPORT_SIZE = 480;
 }

@@ -8,15 +8,12 @@ import com.gidsor.gigagal.entities.GigaGal;
 import java.security.Key;
 
 public class ChaseCam {
-    private Camera camera;
-    private GigaGal target;
+    public Camera camera;
+    public GigaGal target;
 
     private boolean following;
 
-    public ChaseCam(Camera camera, GigaGal target) {
-        this.camera = camera;
-        this.target = target;
-
+    public ChaseCam() {
         following = true;
     }
 

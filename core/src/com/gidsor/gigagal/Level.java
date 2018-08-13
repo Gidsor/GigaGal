@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gidsor.gigagal.entities.Bullet;
 import com.gidsor.gigagal.entities.Enemy;
@@ -23,7 +24,11 @@ import com.gidsor.gigagal.util.Enums.*;
 public class Level {
     public static final String TAG = Level.class.getName();
 
-    private Viewport viewport;
+    public boolean gameOver = false;
+    public boolean victory = false;
+    public int score = 0;
+
+    public Viewport viewport;
     private GigaGal gigaGal;
 
     private ExitPortal exitPortal;
@@ -34,10 +39,10 @@ public class Level {
     private DelayedRemovalArray<Explosion> explosions;
     private DelayedRemovalArray<Powerup> powerups;
 
-    public Level(Viewport viewport) {
-        this.viewport = viewport;
+    public Level() {
+        viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
 
-        gigaGal = new GigaGal(Constants.DEFAULT_SPAWN_LOCATION, this);
+        gigaGal = new GigaGal(new Vector2(50, 50), this);
         platforms = new Array<Platform>();
         enemies = new DelayedRemovalArray<Enemy>();
         bullets = new DelayedRemovalArray<Bullet>();
@@ -45,6 +50,12 @@ public class Level {
         powerups = new DelayedRemovalArray<Powerup>();
 
         exitPortal = new ExitPortal(Constants.EXIT_PORTAL_DEFAULT_LOCATION);
+    }
+
+    public static Level debugLevel() {
+        Level level = new Level();
+        level.initializeDebugLevel();
+        return level;
     }
 
     public void update(float delta) {

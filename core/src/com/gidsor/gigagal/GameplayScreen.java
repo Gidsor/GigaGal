@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.gidsor.gigagal.overlays.GigaGalHud;
 import com.gidsor.gigagal.util.Assets;
 import com.gidsor.gigagal.util.ChaseCam;
 import com.gidsor.gigagal.util.Constants;
@@ -15,10 +16,12 @@ public class GameplayScreen extends ScreenAdapter {
     private static final String TAG = GameplayScreen.class.getName();
 
     private ChaseCam chaseCam;
+    private Level level;
 
-    Level level;
     SpriteBatch batch;
-    ExtendViewport gameplayViewport;
+//    ExtendViewport gameplayViewport;
+
+    private GigaGalHud hud;
 
     @Override
     public void show() {
@@ -26,18 +29,17 @@ public class GameplayScreen extends ScreenAdapter {
         Assets.instance.init(am);
 
         batch = new SpriteBatch();
-        gameplayViewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
+        chaseCam = new ChaseCam();
+        hud = new GigaGalHud();
 
-//        level = new Level(gameplayViewport);
-//        level.initializeDebugLevel();
-
-        level = LevelLoader.load("Level1", gameplayViewport);
-        chaseCam = new ChaseCam(gameplayViewport.getCamera(), level.getGigaGal());
+        startNewLevel();
     }
 
     @Override
     public void resize(int width, int height) {
-        gameplayViewport.update(width, height, true);
+        hud.viewport.update(width, height, true);
+        level.viewport.update(width, height, true);
+        chaseCam.camera = level.viewport.getCamera();
     }
 
     @Override
@@ -51,8 +53,6 @@ public class GameplayScreen extends ScreenAdapter {
 
         chaseCam.update(delta);
 
-        gameplayViewport.apply();
-
         Gdx.gl.glClearColor(
                 Constants.BACKGROUND_COLOR.r,
                 Constants.BACKGROUND_COLOR.g,
@@ -61,9 +61,17 @@ public class GameplayScreen extends ScreenAdapter {
         );
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        batch.setProjectionMatrix(gameplayViewport.getCamera().combined);
         batch.begin();
         level.render(batch);
+        hud.render(batch);
         batch.end();
+    }
+
+    private void startNewLevel() {
+        level = Level.debugLevel();
+
+        chaseCam.camera = level.viewport.getCamera();
+        chaseCam.target = level.getGigaGal();
+        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 }

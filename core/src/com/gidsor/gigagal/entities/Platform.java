@@ -2,7 +2,6 @@ package com.gidsor.gigagal.entities;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.gidsor.gigagal.util.Assets;
 
 public class Platform {

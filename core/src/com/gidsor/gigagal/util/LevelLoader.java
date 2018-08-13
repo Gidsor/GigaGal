@@ -24,7 +24,7 @@ public class LevelLoader {
 
     public static Level load(String levelName, Viewport viewport) {
 
-        Level level = new Level(viewport);
+        Level level = new Level();
         String path = Constants.LEVEL_DIR + File.separator + levelName + "." + Constants.LEVEL_FILE_EXTENSION;
 
         FileHandle file = Gdx.files.internal(path);
