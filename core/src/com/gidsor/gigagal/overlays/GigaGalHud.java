@@ -18,7 +18,7 @@ public class GigaGalHud {
     public GigaGalHud() {
         this.viewport = new ExtendViewport(Constants.HUD_VIEWPORT_SIZE, Constants.HUD_VIEWPORT_SIZE);
         font = new BitmapFont();
-//        font.getData().setScale(1);
+        font.getData().setScale(1);
     }
 
     public void render(SpriteBatch batch, int lives, int ammo, int score) {

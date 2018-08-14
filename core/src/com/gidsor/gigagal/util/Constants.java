@@ -104,4 +104,12 @@ public class Constants {
     public static final int ENEMY_KILL_SCORE = 100;
     public static final int ENEMY_HIT_SCORE = 25;
     public static final int POWERUP_SCORE = 50;
+
+    public static final float LEVEL_END_DURATION = 5;
+    public static final String VICTORY_MESSAGE = "VICTORY";
+    public static final String GAME_OVER_MESSAGE = "GAME OVER";
+    public static final int EXPLOSION_COUNT = 500;
+    public static final int ENEMY_COUNT = 200;
+    public static final String FONT_FILE = "font/header.fnt";
+    public static final float EXIT_PORTAL_RADIUS = 28.0f;
 }

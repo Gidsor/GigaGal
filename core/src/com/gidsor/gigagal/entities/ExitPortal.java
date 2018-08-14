@@ -11,7 +11,7 @@ import com.gidsor.gigagal.util.Utils;
 public class ExitPortal {
     public static final String TAG = ExitPortal.class.getName();
 
-    private final Vector2 position;
+    public final Vector2 position;
     private final long startTime;
 
     public ExitPortal(Vector2 position) {

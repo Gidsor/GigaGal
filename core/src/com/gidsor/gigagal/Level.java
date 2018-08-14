@@ -59,37 +59,43 @@ public class Level {
     }
 
     public void update(float delta) {
-        gigaGal.update(delta, platforms);
-
-        bullets.begin();
-        for (Bullet bullet : bullets) {
-            bullet.update(delta);
-
-            if (!bullet.active) {
-                bullets.removeValue(bullet, false);
-            }
+        if (gigaGal.getPosition().dst(exitPortal.position) < Constants.EXIT_PORTAL_RADIUS) {
+            victory = true;
         }
-        bullets.end();
 
-        enemies.begin();
-        for (Enemy enemy : enemies) {
-            enemy.update(delta);
+        if (!gameOver && !victory) {
+            gigaGal.update(delta, platforms);
 
-            if (enemy.health < 1) {
-                spawnExplosion(enemy.position);
-                enemies.removeValue(enemy, false);
-                score += Constants.ENEMY_KILL_SCORE;
+            bullets.begin();
+            for (Bullet bullet : bullets) {
+                bullet.update(delta);
+
+                if (!bullet.active) {
+                    bullets.removeValue(bullet, false);
+                }
             }
-        }
-        enemies.end();
+            bullets.end();
 
-        explosions.begin();
-        for (Explosion explosion : explosions) {
-            if (explosion.isFineshed()) {
-                explosions.removeValue(explosion, false);
+            enemies.begin();
+            for (Enemy enemy : enemies) {
+                enemy.update(delta);
+
+                if (enemy.health < 1) {
+                    spawnExplosion(enemy.position);
+                    enemies.removeValue(enemy, false);
+                    score += Constants.ENEMY_KILL_SCORE;
+                }
             }
+            enemies.end();
+
+            explosions.begin();
+            for (Explosion explosion : explosions) {
+                if (explosion.isFineshed()) {
+                    explosions.removeValue(explosion, false);
+                }
+            }
+            explosions.end();
         }
-        explosions.end();
     }
 
     public void render(SpriteBatch batch) {
