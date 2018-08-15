@@ -19,6 +19,10 @@ import com.gidsor.gigagal.util.Utils;
 public class GigaGal {
     public static final String TAG = GigaGal.class.getName();
 
+    public boolean jumpButtonPressed;
+    public boolean leftButtonPressed;
+    public boolean rightButtonPressed;
+
     private Direction direction;
     private JumpState jumpState;
     private WalkState walkState;
@@ -117,7 +121,7 @@ public class GigaGal {
             }
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) || jumpButtonPressed) {
             switch (jumpState) {
                 case GROUNDED: startJump(); break;
                 case JUMPING: continueJump(); break;
@@ -128,9 +132,12 @@ public class GigaGal {
         }
 
         if (jumpState != JumpState.RECOILING) {
-            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            boolean left = Gdx.input.isKeyPressed(Input.Keys.A) || leftButtonPressed;
+            boolean right = Gdx.input.isKeyPressed(Input.Keys.D) || rightButtonPressed;
+
+            if (left && !right) {
                 moveLeft(dt);
-            } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            } else if (right && !left) {
                 moveRight(dt);
             } else {
                 walkState = WalkState.STANDING;
@@ -155,7 +162,13 @@ public class GigaGal {
         }
         powerups.end();
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F) && ammo > 0) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
+            shoot();
+        }
+    }
+
+    public void shoot() {
+        if (ammo > 0) {
             ammo--;
             Vector2 bulletPosition;
 

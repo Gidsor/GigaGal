@@ -1,5 +1,6 @@
 package com.gidsor.gigagal;
 
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
@@ -16,6 +17,7 @@ import com.gidsor.gigagal.util.ChaseCam;
 import com.gidsor.gigagal.util.Constants;
 import com.gidsor.gigagal.util.LevelLoader;
 import com.gidsor.gigagal.util.Utils;
+
 
 public class GameplayScreen extends ScreenAdapter {
     private static final String TAG = GameplayScreen.class.getName();
@@ -41,7 +43,16 @@ public class GameplayScreen extends ScreenAdapter {
         gameOverOverlay = new GameOverOverlay();
         onScreenControls = new OnScreenControls();
 
+        if (onMobile()) {
+            Gdx.input.setInputProcessor(onScreenControls);
+        }
+
         startNewLevel();
+    }
+
+    private boolean onMobile() {
+        ApplicationType type = Gdx.app.getType();
+        return type == ApplicationType.Android || type == ApplicationType.iOS;
     }
 
     @Override
@@ -76,7 +87,9 @@ public class GameplayScreen extends ScreenAdapter {
 
         batch.begin();
         level.render(batch);
-        onScreenControls.render(batch);
+        if (onMobile()) {
+            onScreenControls.render(batch);
+        }
         hud.render(batch, level.getGigaGal().getLives(), level.getGigaGal().getAmmo(), level.score);
         renderLevelEndOverlays(batch);
         batch.end();
