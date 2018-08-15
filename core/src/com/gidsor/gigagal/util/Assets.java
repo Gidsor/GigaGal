@@ -24,6 +24,7 @@ public class Assets implements Disposable, AssetErrorListener {
     public PlatformAssets platformAssets;
     public EnemyAssets enemyAssets;
     public ExitPortalAssets exitPortalAssets;
+    public OnScreenControlsAssets onScreenControlsAssets;
 
     private AssetManager assetManager;
 
@@ -45,6 +46,7 @@ public class Assets implements Disposable, AssetErrorListener {
         platformAssets = new PlatformAssets(atlas);
         enemyAssets = new EnemyAssets(atlas);
         exitPortalAssets = new ExitPortalAssets(atlas);
+        onScreenControlsAssets = new OnScreenControlsAssets(atlas);
     }
 
     @Override
@@ -166,6 +168,20 @@ public class Assets implements Disposable, AssetErrorListener {
                     exitPortal6
             );
             exitPortal = new Animation(Constants.EXIT_PORTAL_FRAME_DURATION, exitPortalFrames);
+        }
+    }
+
+    public class OnScreenControlsAssets {
+        public final AtlasRegion moveRight;
+        public final AtlasRegion moveLeft;
+        public final AtlasRegion jump;
+        public final AtlasRegion shoot;
+
+        public OnScreenControlsAssets(TextureAtlas atlas) {
+            moveRight = atlas.findRegion(Constants.MOVE_RIGHT_BUTTON);
+            moveLeft = atlas.findRegion(Constants.MOVE_LEFT_BUTTON);
+            shoot = atlas.findRegion(Constants.SHOOT_BUTTON);
+            jump = atlas.findRegion(Constants.JUMP_BUTTON);
         }
     }
 }

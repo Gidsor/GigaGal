@@ -22,25 +22,29 @@ import java.util.Comparator;
 public class LevelLoader {
     public static final String TAG = LevelLoader.class.getName();
 
-    public static Level load(String levelName, Viewport viewport) {
-
+    public static Level load(String path) {
         Level level = new Level();
-        String path = Constants.LEVEL_DIR + File.separator + levelName + "." + Constants.LEVEL_FILE_EXTENSION;
+
 
         FileHandle file = Gdx.files.internal(path);
+
         JSONParser parser = new JSONParser();
+        JSONObject rootJsonObject;
 
         try {
-            JSONObject rootJsonObject = (JSONObject) parser.parse(file.reader());
+            rootJsonObject = (JSONObject) parser.parse(file.reader());
+
             JSONObject composite = (JSONObject) rootJsonObject.get(Constants.LEVEL_COMPOSITE);
+
             JSONArray platforms = (JSONArray) composite.get(Constants.LEVEL_9PATCHES);
-            loadPlatform(platforms, level);
+            loadPlatforms(platforms, level);
 
             JSONArray nonPlatformObjects = (JSONArray) composite.get(Constants.LEVEL_IMAGES);
             loadNonPlatformEntities(level, nonPlatformObjects);
+
         } catch (Exception ex) {
-            Gdx.app.error(TAG, ex.getMessage());
-            Gdx.app.error(TAG, Constants.LEVEL_ERROR_MESSAGE);
+            Gdx.app.log(TAG, ex.getMessage());
+            Gdx.app.log(TAG, Constants.LEVEL_ERROR_MESSAGE);
         }
 
         return level;
@@ -51,7 +55,7 @@ public class LevelLoader {
         return (number == null) ? 0 : number.floatValue();
     }
 
-    private static void loadPlatform(JSONArray array, Level level) {
+    private static void loadPlatforms(JSONArray array, Level level) {
         Array<Platform> platforms = new Array<Platform>();
 
         for (Object object : array) {
