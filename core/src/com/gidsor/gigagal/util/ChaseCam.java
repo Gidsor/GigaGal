@@ -21,9 +21,9 @@ public class ChaseCam {
 
     public void update(float delta) {
 
-        if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
-            following = !following;
-        }
+//        if (Gdx.input.isKeyJustPressed(Keys.C)) {
+//            following = !following;
+//        }
 
         if (following) {
             camera.position.x = target.getPosition().x;
