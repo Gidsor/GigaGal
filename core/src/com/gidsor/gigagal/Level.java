@@ -49,7 +49,7 @@ public class Level {
         explosions = new DelayedRemovalArray<Explosion>();
         powerups = new DelayedRemovalArray<Powerup>();
 
-        exitPortal = new ExitPortal(Constants.EXIT_PORTAL_DEFAULT_LOCATION);
+        exitPortal = new ExitPortal(new Vector2(200, 200));
     }
 
     public static Level debugLevel() {
