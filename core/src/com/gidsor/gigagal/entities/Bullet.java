@@ -6,13 +6,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.gidsor.gigagal.Level;
 import com.gidsor.gigagal.util.Assets;
 import com.gidsor.gigagal.util.Constants;
-import com.gidsor.gigagal.util.Enums.*;
+import com.gidsor.gigagal.util.Enums.Direction;
 import com.gidsor.gigagal.util.Utils;
 
 public class Bullet {
+
     private final Direction direction;
     private final Level level;
-
     public boolean active;
     private Vector2 position;
 
@@ -25,11 +25,11 @@ public class Bullet {
 
     public void update(float delta) {
         switch (direction) {
-            case RIGHT:
-                position.x += delta * Constants.BULLET_MOVE_SPEED;
-                break;
             case LEFT:
                 position.x -= delta * Constants.BULLET_MOVE_SPEED;
+                break;
+            case RIGHT:
+                position.x += delta * Constants.BULLET_MOVE_SPEED;
                 break;
         }
 
@@ -37,7 +37,7 @@ public class Bullet {
             if (position.dst(enemy.position) < Constants.ENEMY_SHOT_RADIUS) {
                 level.spawnExplosion(position);
                 active = false;
-                enemy.health--;
+                enemy.health -= 1;
                 level.score += Constants.ENEMY_HIT_SCORE;
             }
         }

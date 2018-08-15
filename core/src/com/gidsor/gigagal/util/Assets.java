@@ -12,24 +12,25 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
+
 public class Assets implements Disposable, AssetErrorListener {
 
     public static final String TAG = Assets.class.getName();
     public static final Assets instance = new Assets();
 
     public GigaGalAssets gigaGalAssets;
+    public PlatformAssets platformAssets;
     public BulletAssets bulletAssets;
+    public EnemyAssets enemyAssets;
     public ExplosionAssets explosionAssets;
     public PowerupAssets powerupAssets;
-    public PlatformAssets platformAssets;
-    public EnemyAssets enemyAssets;
     public ExitPortalAssets exitPortalAssets;
-    public OnScreenControlsAssets onScreenControlsAssets;
+    public OnscreenControlsAssets onscreenControlsAssets;
 
     private AssetManager assetManager;
 
-    private Assets() {
 
+    private Assets() {
     }
 
     public void init(AssetManager assetManager) {
@@ -40,13 +41,13 @@ public class Assets implements Disposable, AssetErrorListener {
 
         TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS);
         gigaGalAssets = new GigaGalAssets(atlas);
+        platformAssets = new PlatformAssets(atlas);
         bulletAssets = new BulletAssets(atlas);
+        enemyAssets = new EnemyAssets(atlas);
         explosionAssets = new ExplosionAssets(atlas);
         powerupAssets = new PowerupAssets(atlas);
-        platformAssets = new PlatformAssets(atlas);
-        enemyAssets = new EnemyAssets(atlas);
         exitPortalAssets = new ExitPortalAssets(atlas);
-        onScreenControlsAssets = new OnScreenControlsAssets(atlas);
+        onscreenControlsAssets = new OnscreenControlsAssets(atlas);
     }
 
     @Override
@@ -60,64 +61,86 @@ public class Assets implements Disposable, AssetErrorListener {
     }
 
     public class GigaGalAssets {
-        public final AtlasRegion standingRight;
-        public final AtlasRegion standingLeft;
-        public final AtlasRegion jumpingRight;
-        public final AtlasRegion jumpingLeft;
-        public final AtlasRegion walkingRight;
-        public final AtlasRegion walkingLeft;
 
-        public final Animation walkingRightAnimation;
+        public final AtlasRegion standingLeft;
+        public final AtlasRegion standingRight;
+        public final AtlasRegion walkingLeft;
+        public final AtlasRegion walkingRight;
+        public final AtlasRegion jumpingLeft;
+        public final AtlasRegion jumpingRight;
+
         public final Animation walkingLeftAnimation;
+        public final Animation walkingRightAnimation;
+
 
         public GigaGalAssets(TextureAtlas atlas) {
-            standingRight = atlas.findRegion(Constants.STANDING_RIGHT);
             standingLeft = atlas.findRegion(Constants.STANDING_LEFT);
-            jumpingRight = atlas.findRegion(Constants.JUMPING_RIGHT);
-            jumpingLeft = atlas.findRegion(Constants.JUMPING_LEFT);
-            walkingRight = atlas.findRegion(Constants.WALKING_RIGHT_2);
+            standingRight = atlas.findRegion(Constants.STANDING_RIGHT);
             walkingLeft = atlas.findRegion(Constants.WALKING_LEFT_2);
+            walkingRight = atlas.findRegion(Constants.WALKING_RIGHT_2);
 
-            Array<AtlasRegion> walkingRightFrames = new Array<AtlasRegion>();
-            walkingRightFrames.add(atlas.findRegion(Constants.WALKING_RIGHT_2));
-            walkingRightFrames.add(atlas.findRegion(Constants.WALKING_RIGHT_1));
-            walkingRightFrames.add(atlas.findRegion(Constants.WALKING_RIGHT_2));
-            walkingRightFrames.add(atlas.findRegion(Constants.WALKING_RIGHT_3));
-
-            walkingRightAnimation = new Animation(Constants.WALK_LOOP_DURATION, walkingRightFrames, PlayMode.LOOP);
+            jumpingLeft = atlas.findRegion(Constants.JUMPING_LEFT);
+            jumpingRight = atlas.findRegion(Constants.JUMPING_RIGHT);
 
             Array<AtlasRegion> walkingLeftFrames = new Array<AtlasRegion>();
             walkingLeftFrames.add(atlas.findRegion(Constants.WALKING_LEFT_2));
             walkingLeftFrames.add(atlas.findRegion(Constants.WALKING_LEFT_1));
             walkingLeftFrames.add(atlas.findRegion(Constants.WALKING_LEFT_2));
             walkingLeftFrames.add(atlas.findRegion(Constants.WALKING_LEFT_3));
-
             walkingLeftAnimation = new Animation(Constants.WALK_LOOP_DURATION, walkingLeftFrames, PlayMode.LOOP);
+
+            Array<AtlasRegion> walkingRightFrames = new Array<AtlasRegion>();
+            walkingRightFrames.add(atlas.findRegion(Constants.WALKING_RIGHT_2));
+            walkingRightFrames.add(atlas.findRegion(Constants.WALKING_RIGHT_1));
+            walkingRightFrames.add(atlas.findRegion(Constants.WALKING_RIGHT_2));
+            walkingRightFrames.add(atlas.findRegion(Constants.WALKING_RIGHT_3));
+            walkingRightAnimation = new Animation(Constants.WALK_LOOP_DURATION, walkingRightFrames, PlayMode.LOOP);
+        }
+    }
+
+    public class PlatformAssets {
+
+        public final NinePatch platformNinePatch;
+
+        public PlatformAssets(TextureAtlas atlas) {
+            AtlasRegion region = atlas.findRegion(Constants.PLATFORM_SPRITE);
+            int edge = Constants.PLATFORM_EDGE;
+            platformNinePatch = new NinePatch(region, edge, edge, edge, edge);
         }
     }
 
     public class BulletAssets {
+
         public final AtlasRegion bullet;
 
         public BulletAssets(TextureAtlas atlas) {
             bullet = atlas.findRegion(Constants.BULLET_SPRITE);
         }
+
+    }
+
+    public class EnemyAssets {
+
+        public final AtlasRegion enemy;
+
+        public EnemyAssets(TextureAtlas atlas) {
+            enemy = atlas.findRegion(Constants.ENEMY_SPRITE);
+        }
     }
 
     public class ExplosionAssets {
+
         public final Animation explosion;
 
         public ExplosionAssets(TextureAtlas atlas) {
+
             Array<AtlasRegion> explosionRegions = new Array<AtlasRegion>();
             explosionRegions.add(atlas.findRegion(Constants.EXPLOSION_LARGE));
             explosionRegions.add(atlas.findRegion(Constants.EXPLOSION_MEDIUM));
             explosionRegions.add(atlas.findRegion(Constants.EXPLOSION_SMALL));
 
-            explosion = new Animation(
-                    Constants.EXPLOSION_DURATION / explosionRegions.size,
-                    explosionRegions,
-                    Animation.PlayMode.NORMAL
-            );
+            explosion = new Animation(Constants.EXPLOSION_DURATION / explosionRegions.size,
+                    explosionRegions, PlayMode.NORMAL);
         }
     }
 
@@ -129,25 +152,8 @@ public class Assets implements Disposable, AssetErrorListener {
         }
     }
 
-    public class PlatformAssets {
-        public final NinePatch platformNinePatch;
-
-        public PlatformAssets(TextureAtlas atlas) {
-            AtlasRegion region = atlas.findRegion(Constants.PLATFORM_SPRITE);
-            int edge = Constants.PLATFORM_EDGE;
-            platformNinePatch = new NinePatch(region, edge, edge, edge, edge);
-        }
-    }
-
-    public class EnemyAssets {
-        public final AtlasRegion enemy;
-
-        public EnemyAssets(TextureAtlas atlas) {
-            enemy = atlas.findRegion(Constants.ENEMY_SPRITE);
-        }
-    }
-
     public class ExitPortalAssets {
+
         public final Animation exitPortal;
 
         public ExitPortalAssets(TextureAtlas atlas) {
@@ -159,29 +165,27 @@ public class Assets implements Disposable, AssetErrorListener {
             final AtlasRegion exitPortal6 = atlas.findRegion(Constants.EXIT_PORTAL_SPRITE_6);
 
             Array<AtlasRegion> exitPortalFrames = new Array<AtlasRegion>();
-            exitPortalFrames.addAll(
-                    exitPortal1,
-                    exitPortal2,
-                    exitPortal3,
-                    exitPortal4,
-                    exitPortal5,
-                    exitPortal6
-            );
+            exitPortalFrames.addAll(exitPortal1, exitPortal2, exitPortal3, exitPortal4, exitPortal5, exitPortal6);
+
             exitPortal = new Animation(Constants.EXIT_PORTAL_FRAME_DURATION, exitPortalFrames);
         }
     }
 
-    public class OnScreenControlsAssets {
+    public class OnscreenControlsAssets {
+
         public final AtlasRegion moveRight;
         public final AtlasRegion moveLeft;
-        public final AtlasRegion jump;
         public final AtlasRegion shoot;
+        public final AtlasRegion jump;
 
-        public OnScreenControlsAssets(TextureAtlas atlas) {
+        public OnscreenControlsAssets(TextureAtlas atlas) {
             moveRight = atlas.findRegion(Constants.MOVE_RIGHT_BUTTON);
             moveLeft = atlas.findRegion(Constants.MOVE_LEFT_BUTTON);
             shoot = atlas.findRegion(Constants.SHOOT_BUTTON);
             jump = atlas.findRegion(Constants.JUMP_BUTTON);
         }
+
+
     }
+
 }

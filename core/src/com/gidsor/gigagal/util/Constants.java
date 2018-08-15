@@ -4,9 +4,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
 public class Constants {
+
     // World/Camera
     public static final Color BACKGROUND_COLOR = Color.SKY;
-    public static final float WORLD_SIZE = 160;
+    public static final float WORLD_SIZE = 320;
     public static final float KILL_PLANE = -200;
     public static final float GRAVITY = 10;
     public static final float CHASE_CAM_MOVE_SPEED = WORLD_SIZE;
@@ -111,8 +112,8 @@ public class Constants {
 
     // Victory/Game Over screens
     public static final float LEVEL_END_DURATION = 5;
-    public static final String VICTORY_MESSAGE = "YOU WIN";
-    public static final String GAME_OVER_MESSAGE = "YOU LOSE";
+    public static final String VICTORY_MESSAGE = "You are the Winrar!";
+    public static final String GAME_OVER_MESSAGE = "Game Over, Gal";
     public static final int EXPLOSION_COUNT =500;
     public static final int ENEMY_COUNT =200;
     public static final String FONT_FILE = "font/header.fnt";
@@ -121,4 +122,5 @@ public class Constants {
     public static final int ENEMY_KILL_SCORE = 100;
     public static final int ENEMY_HIT_SCORE = 25;
     public static final int POWERUP_SCORE = 50;
+
 }

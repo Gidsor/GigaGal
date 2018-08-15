@@ -1,9 +1,11 @@
 package com.gidsor.gigagal.util;
 
+
 public class Enums {
+
+
     public enum Direction {
-        LEFT,
-        RIGHT
+        LEFT, RIGHT
     }
 
     public enum JumpState {
@@ -14,7 +16,7 @@ public class Enums {
     }
 
     public enum WalkState {
-        STANDING,
+        NOT_WALKING,
         WALKING
     }
 }

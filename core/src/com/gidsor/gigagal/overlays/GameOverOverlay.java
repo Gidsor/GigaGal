@@ -14,7 +14,9 @@ import com.gidsor.gigagal.entities.Platform;
 import com.gidsor.gigagal.util.Constants;
 import com.gidsor.gigagal.util.Utils;
 
+
 public class GameOverOverlay {
+
     public final Viewport viewport;
     final BitmapFont font;
     Array<Enemy> enemies;
@@ -33,39 +35,40 @@ public class GameOverOverlay {
         enemies = new Array<Enemy>(Constants.ENEMY_COUNT);
 
         for (int i = 0; i < Constants.ENEMY_COUNT; i++) {
-            Platform platform = new Platform(
-                    MathUtils.random(viewport.getWorldWidth()),
-                    MathUtils.random(-Constants.ENEMY_CENTER.y, viewport.getWorldHeight()),
-                    0,
-                    0
-            );
 
-            Enemy enemy = new Enemy(platform);
+            Platform fakePlatform = new Platform(
+                    MathUtils.random(viewport.getWorldWidth()),
+                    MathUtils.random(-Constants.ENEMY_CENTER.y/2, viewport.getWorldHeight()
+                    ), 0, 0);
+
+            Enemy enemy = new Enemy(fakePlatform);
+
             enemies.add(enemy);
+
+
         }
+
     }
 
     public void render(SpriteBatch batch) {
+
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
+        batch.begin();
 
         float timeElapsed = Utils.secondsSince(startTime);
         int enemiesToShow = (int) (Constants.ENEMY_COUNT * (timeElapsed / Constants.LEVEL_END_DURATION));
 
-        for (int i = 0; i < enemiesToShow; i++) {
+        for (int i = 0; i < enemiesToShow; i++){
             Enemy enemy = enemies.get(i);
             enemy.update(0);
             enemy.render(batch);
         }
 
-        font.draw(
-                batch,
-                Constants.GAME_OVER_MESSAGE,
-                viewport.getWorldWidth() / 2,
-                viewport.getWorldHeight() / 2.5f,
-                0,
-                Align.center,
-                false
-        );
+
+        font.draw(batch, Constants.GAME_OVER_MESSAGE, viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f, 0, Align.center, false);
+
+        batch.end();
+
     }
 }

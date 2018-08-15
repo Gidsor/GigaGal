@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.gidsor.gigagal.overlays.GameOverOverlay;
 import com.gidsor.gigagal.overlays.GigaGalHud;
-import com.gidsor.gigagal.overlays.OnScreenControls;
+import com.gidsor.gigagal.overlays.OnscreenControls;
 import com.gidsor.gigagal.overlays.VictoryOverlay;
 import com.gidsor.gigagal.util.Assets;
 import com.gidsor.gigagal.util.ChaseCam;
@@ -20,13 +20,14 @@ import com.gidsor.gigagal.util.Utils;
 
 
 public class GameplayScreen extends ScreenAdapter {
-    private static final String TAG = GameplayScreen.class.getName();
 
+    public static final String TAG = GameplayScreen.class.getName();
+
+    OnscreenControls onscreenControls;
     SpriteBatch batch;
-    OnScreenControls onScreenControls;
     long levelEndOverlayStartTime;
-    private ChaseCam chaseCam;
     private Level level;
+    private ChaseCam chaseCam;
     private GigaGalHud hud;
     private VictoryOverlay victoryOverlay;
     private GameOverOverlay gameOverOverlay;
@@ -41,29 +42,28 @@ public class GameplayScreen extends ScreenAdapter {
         hud = new GigaGalHud();
         victoryOverlay = new VictoryOverlay();
         gameOverOverlay = new GameOverOverlay();
-        onScreenControls = new OnScreenControls();
 
+        onscreenControls = new OnscreenControls();
         if (onMobile()) {
-            Gdx.input.setInputProcessor(onScreenControls);
+            Gdx.input.setInputProcessor(onscreenControls);
         }
 
         startNewLevel();
     }
 
     private boolean onMobile() {
-        ApplicationType type = Gdx.app.getType();
-        return type == ApplicationType.Android || type == ApplicationType.iOS;
+        return Gdx.app.getType() == ApplicationType.Android || Gdx.app.getType() == ApplicationType.iOS;
     }
 
     @Override
     public void resize(int width, int height) {
         hud.viewport.update(width, height, true);
         victoryOverlay.viewport.update(width, height, true);
+        gameOverOverlay.viewport.update(width, height, true);
         level.viewport.update(width, height, true);
         chaseCam.camera = level.viewport.getCamera();
-
-        onScreenControls.viewport.update(width, height, true);
-        onScreenControls.recalculateButtonPositions();
+        onscreenControls.viewport.update(width, height, true);
+        onscreenControls.recalculateButtonPositions();
     }
 
     @Override
@@ -73,30 +73,30 @@ public class GameplayScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        level.update(delta);
 
+        level.update(delta);
         chaseCam.update(delta);
+
 
         Gdx.gl.glClearColor(
                 Constants.BACKGROUND_COLOR.r,
                 Constants.BACKGROUND_COLOR.g,
                 Constants.BACKGROUND_COLOR.b,
-                Constants.BACKGROUND_COLOR.a
-        );
+                Constants.BACKGROUND_COLOR.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        batch.begin();
+
         level.render(batch);
         if (onMobile()) {
-            onScreenControls.render(batch);
+            onscreenControls.render(batch);
         }
         hud.render(batch, level.getGigaGal().getLives(), level.getGigaGal().getAmmo(), level.score);
         renderLevelEndOverlays(batch);
-        batch.end();
     }
 
     private void renderLevelEndOverlays(SpriteBatch batch) {
         if (level.gameOver) {
+
             if (levelEndOverlayStartTime == 0) {
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
                 gameOverOverlay.init();
@@ -114,25 +114,24 @@ public class GameplayScreen extends ScreenAdapter {
             }
 
             victoryOverlay.render(batch);
-
             if (Utils.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION) {
                 levelEndOverlayStartTime = 0;
                 levelComplete();
             }
+
         }
-
-
     }
 
     private void startNewLevel() {
-        level = Level.debugLevel();
+
+//        level = Level.debugLevel();
 
         String levelName = Constants.LEVELS[MathUtils.random(Constants.LEVELS.length - 1)];
         level = LevelLoader.load(levelName);
 
         chaseCam.camera = level.viewport.getCamera();
         chaseCam.target = level.getGigaGal();
-        onScreenControls.gigaGal = level.getGigaGal();
+        onscreenControls.gigaGal = level.getGigaGal();
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 

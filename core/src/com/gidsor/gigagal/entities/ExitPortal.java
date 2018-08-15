@@ -9,9 +9,11 @@ import com.gidsor.gigagal.util.Constants;
 import com.gidsor.gigagal.util.Utils;
 
 public class ExitPortal {
-    public static final String TAG = ExitPortal.class.getName();
+
+    public final static String TAG = ExitPortal.class.getName();
 
     public final Vector2 position;
+
     private final long startTime;
 
     public ExitPortal(Vector2 position) {
@@ -24,4 +26,8 @@ public class ExitPortal {
         final TextureRegion region = (TextureRegion) Assets.instance.exitPortalAssets.exitPortal.getKeyFrame(elapsedTime, true);
         Utils.drawTextureRegion(batch, region, position, Constants.EXIT_PORTAL_CENTER);
     }
+
+
+
 }
+

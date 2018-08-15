@@ -1,10 +1,6 @@
 package com.gidsor.gigagal;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
@@ -17,22 +13,18 @@ import com.gidsor.gigagal.entities.Explosion;
 import com.gidsor.gigagal.entities.GigaGal;
 import com.gidsor.gigagal.entities.Platform;
 import com.gidsor.gigagal.entities.Powerup;
-import com.gidsor.gigagal.util.Assets;
 import com.gidsor.gigagal.util.Constants;
-import com.gidsor.gigagal.util.Enums.*;
+import com.gidsor.gigagal.util.Enums.Direction;
 
 public class Level {
+
     public static final String TAG = Level.class.getName();
-
-    public boolean gameOver = false;
-    public boolean victory = false;
-    public int score = 0;
-
+    public boolean gameOver;
+    public boolean victory;
     public Viewport viewport;
+    public int score;
     private GigaGal gigaGal;
-
     private ExitPortal exitPortal;
-
     private Array<Platform> platforms;
     private DelayedRemovalArray<Enemy> enemies;
     private DelayedRemovalArray<Bullet> bullets;
@@ -48,8 +40,13 @@ public class Level {
         bullets = new DelayedRemovalArray<Bullet>();
         explosions = new DelayedRemovalArray<Explosion>();
         powerups = new DelayedRemovalArray<Powerup>();
-
         exitPortal = new ExitPortal(new Vector2(200, 200));
+
+        gameOver = false;
+        victory = false;
+        score = 0;
+
+
     }
 
     public static Level debugLevel() {
@@ -59,6 +56,8 @@ public class Level {
     }
 
     public void update(float delta) {
+
+
         if (gigaGal.getLives() < 0) {
             gameOver = true;
         } else if (gigaGal.getPosition().dst(exitPortal.position) < Constants.EXIT_PORTAL_RADIUS) {
@@ -66,41 +65,51 @@ public class Level {
         }
 
         if (!gameOver && !victory) {
+
             gigaGal.update(delta, platforms);
 
+            // Update Bullets
             bullets.begin();
             for (Bullet bullet : bullets) {
                 bullet.update(delta);
-
                 if (!bullet.active) {
                     bullets.removeValue(bullet, false);
                 }
             }
             bullets.end();
 
+            // Update Enemies
             enemies.begin();
-            for (Enemy enemy : enemies) {
+            for (int i = 0; i < enemies.size; i++) {
+                Enemy enemy = enemies.get(i);
                 enemy.update(delta);
-
                 if (enemy.health < 1) {
                     spawnExplosion(enemy.position);
-                    enemies.removeValue(enemy, false);
+                    enemies.removeIndex(i);
                     score += Constants.ENEMY_KILL_SCORE;
                 }
             }
             enemies.end();
 
+            // Update Explosions
             explosions.begin();
-            for (Explosion explosion : explosions) {
-                if (explosion.isFineshed()) {
-                    explosions.removeValue(explosion, false);
+            for (int i = 0; i < explosions.size; i++) {
+                if (explosions.get(i).isFinished()) {
+                    explosions.removeIndex(i);
                 }
             }
             explosions.end();
         }
+
     }
 
     public void render(SpriteBatch batch) {
+
+        viewport.apply();
+
+        batch.setProjectionMatrix(viewport.getCamera().combined);
+        batch.begin();
+
         for (Platform platform : platforms) {
             platform.render(batch);
         }
@@ -114,7 +123,6 @@ public class Level {
         for (Enemy enemy : enemies) {
             enemy.render(batch);
         }
-
         gigaGal.render(batch);
 
         for (Bullet bullet : bullets) {
@@ -124,9 +132,12 @@ public class Level {
         for (Explosion explosion : explosions) {
             explosion.render(batch);
         }
+
+        batch.end();
     }
 
-    public void initializeDebugLevel() {
+    private void initializeDebugLevel() {
+
         gigaGal = new GigaGal(new Vector2(15, 40), this);
 
         exitPortal = new ExitPortal(new Vector2(150, 150));
@@ -151,8 +162,25 @@ public class Level {
         powerups.add(new Powerup(new Vector2(20, 110)));
     }
 
+
     public Array<Platform> getPlatforms() {
         return platforms;
+    }
+
+    public DelayedRemovalArray<Enemy> getEnemies() {
+        return enemies;
+    }
+
+    public DelayedRemovalArray<Powerup> getPowerups() {
+        return powerups;
+    }
+
+    public ExitPortal getExitPortal() {
+        return exitPortal;
+    }
+
+    public void setExitPortal(ExitPortal exitPortal) {
+        this.exitPortal = exitPortal;
     }
 
     public Viewport getViewport() {
@@ -171,27 +199,11 @@ public class Level {
         this.gigaGal = gigaGal;
     }
 
-    public DelayedRemovalArray<Enemy> getEnemies() {
-        return enemies;
-    }
-
-    public DelayedRemovalArray<Powerup> getPowerups() {
-        return powerups;
-    }
-
     public void spawnBullet(Vector2 position, Direction direction) {
         bullets.add(new Bullet(this, position, direction));
     }
 
     public void spawnExplosion(Vector2 position) {
         explosions.add(new Explosion(position));
-    }
-
-    public ExitPortal getExitPortal() {
-        return exitPortal;
-    }
-
-    public void setExitPortal(ExitPortal exitPortal) {
-        this.exitPortal = exitPortal;
     }
 }

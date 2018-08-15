@@ -7,7 +7,9 @@ import com.gidsor.gigagal.util.Assets;
 import com.gidsor.gigagal.util.Constants;
 import com.gidsor.gigagal.util.Utils;
 
+
 public class Powerup {
+
     final public Vector2 position;
 
     public Powerup(Vector2 position) {
@@ -18,4 +20,5 @@ public class Powerup {
         final TextureRegion region = Assets.instance.powerupAssets.powerup;
         Utils.drawTextureRegion(batch, region, position, Constants.POWERUP_CENTER);
     }
+
 }
