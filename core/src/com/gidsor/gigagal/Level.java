@@ -59,7 +59,9 @@ public class Level {
     }
 
     public void update(float delta) {
-        if (gigaGal.getPosition().dst(exitPortal.position) < Constants.EXIT_PORTAL_RADIUS) {
+        if (gigaGal.getLives() < 0) {
+            gameOver = true;
+        } else if (gigaGal.getPosition().dst(exitPortal.position) < Constants.EXIT_PORTAL_RADIUS) {
             victory = true;
         }
 

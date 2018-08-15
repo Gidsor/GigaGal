@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.gidsor.gigagal.overlays.GameOverOverlay;
 import com.gidsor.gigagal.overlays.GigaGalHud;
 import com.gidsor.gigagal.overlays.VictoryOverlay;
 import com.gidsor.gigagal.util.Assets;
@@ -24,6 +25,7 @@ public class GameplayScreen extends ScreenAdapter {
     private Level level;
     private GigaGalHud hud;
     private VictoryOverlay victoryOverlay;
+    private GameOverOverlay gameOverOverlay;
 
     @Override
     public void show() {
@@ -34,6 +36,7 @@ public class GameplayScreen extends ScreenAdapter {
         chaseCam = new ChaseCam();
         hud = new GigaGalHud();
         victoryOverlay = new VictoryOverlay();
+        gameOverOverlay = new GameOverOverlay();
 
         startNewLevel();
     }
@@ -86,6 +89,19 @@ public class GameplayScreen extends ScreenAdapter {
                 levelComplete();
             }
         }
+
+        if (level.gameOver) {
+            if (levelEndOverlayStartTime == 0) {
+                levelEndOverlayStartTime = TimeUtils.nanoTime();
+                gameOverOverlay.init();
+            }
+
+            gameOverOverlay.render(batch);
+            if (Utils.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION) {
+                levelEndOverlayStartTime = 0;
+                levelFailed();
+            }
+        }
     }
 
     private void startNewLevel() {
@@ -97,6 +113,10 @@ public class GameplayScreen extends ScreenAdapter {
     }
 
     public void levelComplete() {
+        startNewLevel();
+    }
+
+    public void levelFailed() {
         startNewLevel();
     }
 }

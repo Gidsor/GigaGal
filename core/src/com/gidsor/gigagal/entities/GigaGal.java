@@ -31,14 +31,6 @@ public class GigaGal {
     private long jumpStartTime;
     private long walkStartTime;
 
-    public int getAmmo() {
-        return ammo;
-    }
-
-    public int getLives() {
-        return lives;
-    }
-
     private int ammo;
     private int lives;
 
@@ -79,7 +71,10 @@ public class GigaGal {
         position.mulAdd(velocity, dt);
 
         if (position.y < Constants.KILL_PLANE) {
-            init();
+            lives--;
+            if (lives > -1) {
+                respawn();
+            }
         }
 
         if (jumpState != JumpState.JUMPING) {
@@ -273,5 +268,13 @@ public class GigaGal {
         Utils.drawTextureRegion(batch, region,
                 position.x - Constants.GIGAGAL_EYE_POSITION.x,
                 position.y - Constants.GIGAGAL_EYE_POSITION.y);
+    }
+
+    public int getAmmo() {
+        return ammo;
+    }
+
+    public int getLives() {
+        return lives;
     }
 }
