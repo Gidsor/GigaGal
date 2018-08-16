@@ -1,5 +1,5 @@
 # GigaGal
-Игра на LibGDX. В разработке.
+
 ## Лицензия
 
     MIT License
