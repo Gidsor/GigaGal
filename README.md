@@ -1,4 +1,16 @@
 # GigaGal
+## Скриншоты
+<img src="https://user-images.githubusercontent.com/16274235/44217201-98b94f80-a17f-11e8-9e81-5811d2dfe930.png" width=100%/>
+
+<img src="https://user-images.githubusercontent.com/16274235/44217202-98b94f80-a17f-11e8-9429-35ef3041e4be.png" width=100%/>
+
+<img src="https://user-images.githubusercontent.com/16274235/44217203-9951e600-a17f-11e8-94a5-044793a18169.png" width=100%/>
+
+<img src="https://user-images.githubusercontent.com/16274235/44217593-7d027900-a180-11e8-870b-cfc61cb47c54.png" width=100%/>
+
+<img src="https://user-images.githubusercontent.com/16274235/44217463-344ac000-a180-11e8-815c-2ecf25d3a66a.png" width=100%/>
+
+<img src="https://user-images.githubusercontent.com/16274235/44217468-36148380-a180-11e8-864d-dfb640555c2d.png" width=100%/>
 
 ## Лицензия
 
