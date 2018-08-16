@@ -1,4 +1,13 @@
 # GigaGal
+Аркада на LibGDX. 
+
+## Управление на ПК
+A/D - влево/вправо
+
+SPACE - прыжок
+
+F - выстрел
+
 ## Скриншоты
 <img src="https://user-images.githubusercontent.com/16274235/44217201-98b94f80-a17f-11e8-9e81-5811d2dfe930.png" width=100%/>
 
